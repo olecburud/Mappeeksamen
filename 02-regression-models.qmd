@@ -223,7 +223,7 @@ testo10rounded <- round(testo10, 2)
 
 
 
-### Diskusjon
+### Diskusjon 
 
 
 Fra datasettet hypertrophy valgte vi å se på sammenhengen mellom testosteronkonsentrasjon i blodet (ng **&times;** dl<sup>-1</sup>) og treningsalder (antall år med trening). Den lineære modellen forteller at testosteronkonsentrasjonen i blodet synker med 20.51 ng **&times;** dl<sup>-1</sup> for hvert treningsår. Etter 10 år med trening, estimerer den lineære modellen et testosteronnivå på `r testo10rounded` ng **&times;** dl<sup>-1</sup>. 
