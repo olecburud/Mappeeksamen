@@ -1,4 +1,44 @@
-# Assignment 3: Drawing inference from statistical models, and statistical power {#assignment3}
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+```{r}
+#| code-fold: true
+#| warning: false
+#| message: false
+library(tidyverse)
 
-This assignment is set up as a statistical laboratory, we will perform simulations and your assignment is to interpret and explain the results. Create a report based on the code used in the lab and make sure you answer the specified questions (1-8). You can be as creative as you want and explore the results further. 
+set.seed(1)
+population <- rnorm(1000000, mean = 1.5, sd = 3)
+
+
+samp1 <- data.frame(y = sample(population, 8, replace = FALSE))
+
+samp2 <- data.frame(y = sample(population, 40, replace = FALSE))
+
+
+m1 <- lm(y ~ 1, data = samp1)
+m2 <- lm(y ~ 1, data = samp2)
+
+summary(m1)
+
+mean(samp1$y)
+coef(m1)
+sd(samp1$y)
+sd(samp1$y) /sqrt(8)
+```
+
+## Oppgave 1:
+
+Ved bruk av regresjonsmodellen lm1 og lm2 skal jeg i denne oppgaven definere begrepene estimat, SE (standardfeil), T-verdi og P-verdi ut ifra det vi vet fra prosessen med og gjennomføre en studie med et tilfeldig utvalg. 
+
+
+Estimat: Representerer gjennomsnittet av det vi har målt i utvalget. Så i vårt tilfelle viser estimatet gjennomsnitt på den ene variabelen (y) i de to forskjellige utvalgene. 
+
+SE (standardfeil): SE defineres som hvor mye vi kan forvente at gjennomsnittet kan variere hvis du hadde valgt en annen tilfeldig gruppe fra populasjonen. I tillet vi har er det ett SE på 3,539 som vil si hvis vi gjennomfører en ny studie med ett annet utvalg, vil vi kunne forvente en endring i gjennomsnitttet på 3,539. Jo lavere SE vi har, jo mer sikker er vi på at utvalget representer populasjonen bedre. 
+
+T-verdi: T-verdi er det estimat på hvor langt fra estimatet ligger ifra null standardfeil. 
+
+P-verdi: P-verdien referer til hvor sansynlig det er at vårt resultat er oppnåd ved en tilfelighet eller ikke. En lav p-verdi referer til at resultatet vårt ikke er tilfeldig. 
 
