@@ -40,5 +40,286 @@ SE (standardfeil): SE defineres som hvor mye vi kan forvente at gjennomsnittet k
 
 T-verdi: T-verdi er det estimat på hvor langt fra estimatet ligger ifra null standardfeil. T-verdi m1: 1,47, T-verdi m2: 3,276
 
-P-verdi: P-verdien referer til hvor sansynlig det er at vårt resultat er oppnåd ved en tilfelighet eller ikke. En lav p-verdi referer til at resultatet vårt ikke er tilfeldig. P-verdi m1: 
+P-verdi: P-verdien referer til hvor sansynlig det er at vårt resultat er oppnåd ved en tilfelighet eller ikke. En lav p-verdi referer til at resultatet vårt ikke er tilfeldig. 
+
+
+## Oppgave 2
+
+Forskjellene i de to studiene (m1 og m2) er prøvestørrelsen. M2 har n=8 mens m2 har n=40. Studien med større prøvestørrelse vil gi mer pålitelige svar, da den statestistiske styrken er høyere, og sansynligheten for at det faktisk er funnet en sann effekt er større. Dette fordi med færre prøvestørrelser er man mer sårbar for tilfeldige svar, og dermed usanne sanheter. 
+
+
+## Oppgave 3
+Vi bruker skyggelagte områder i de ekstreme tilfellene ved nedre og øvre del for og utelukke uteliggere, det vil si de ekstreme tilfellene som ikke er representative for gjennomsnittet i prøvegruppen. 
+
+
+## Oppgave 4
+```{r}
+#| message: false
+#| warning: false
+#| code-fold: true
+
+library(tidyverse)
+
+
+# Create data frames to store the model estimates
+results_8 <- data.frame(estimate = rep(NA, 1000), 
+                      se = rep(NA, 1000), 
+                      pval = rep(NA, 1000), 
+                      n = 8)  
+
+results_40 <- data.frame(estimate = rep(NA, 1000), 
+                      se = rep(NA, 1000), 
+                      pval = rep(NA, 1000), 
+                      n = 40)
+
+# A for loop used to sample 1000 studies, each iteration (i) will draw a new sample
+# from the population. 
+
+for(i in 1:1000) {
+  
+  # Draw a sample 
+  samp1 <- data.frame(y = sample(population, 8, replace = FALSE))
+  samp2 <- data.frame(y = sample(population, 40, replace = FALSE))
+
+  # Model the data
+  m1 <- lm(y ~ 1, data = samp1)
+  m2 <- lm(y ~ 1, data = samp2)
+  
+  # Extract values from the models
+  results_8[i, 1] <- coef(summary(m1))[1, 1]
+  results_8[i, 2] <- coef(summary(m1))[1, 2]
+  results_8[i, 3] <- coef(summary(m1))[1, 4]
+
+  results_40[i, 1] <- coef(summary(m2))[1, 1]
+  results_40[i, 2] <- coef(summary(m2))[1, 2]
+  results_40[i, 3] <- coef(summary(m2))[1, 4]
+  
+  
+}
+
+
+# Save the results in a combined data frame
+
+results <- bind_rows(results_8, results_40)
+
+sd_est_8 <- sd (results_8$estimate)
+mean_se_8 <- mean(results_8$se)
+
+sd_est_40 <- sd (results_40$estimate)
+mean_se_40 <- mean(results_40$se)
+```
+
+Standardfeilen (SE) er et estimat på hvor mye feilene skal variere fra prøve til prøve, standardavviket er det faktiske variasjonen. Jo flere prøvepersonen det er, jo likere vil SE og standardavviket være, fordi SE forutsier dette.  
+
+
+
+
+## Oppgave 5
+```{r}
+# Example code for copy and paste
+
+# A two facets histogram can be created with ggplot2
+results %>%
+  ggplot(aes(pval)) + 
+  geom_histogram() +
+  facet_wrap(~ n)
+
+
+# Count the proportion of tests below a certain p-value for each 
+results %>%
+  filter(pval < 0.05) %>%
+  group_by(n) %>%
+  summarise(sig_results = n()/1000)
+
+# Using the pwr package
+library(pwr)
+
+pwr.t.test(n = 40, sig.level = 0.05, d = 1.5/3, type = "one.sample")
+```
+
+De to histogrammene viser hvordan p-verdiene varierer mer for hver prøvestørrelse. Ut fra dette kan vi tolke at p-verdiene er mer spredt jo mindre prøvestørrelsen (N) er. Dette kan indikere til en svakere statestistisk styrke, og det er større sjangse for og oppdage en falsk effekt. Ved en større prøvestørrelse som vi ser i det andre histogrammet viser det til fler p-verdier som ligger mer mot signifikant nivået, og det er større sansynlighet for at det er en sann effekt, det vil si en sterkere statestistisk styrke (power). 
+
+
+
+## Oppgave 6
+```{r}
+#| message: false
+#| warning: false
+#| code-fold: true
+
+library(tidyverse)
+library(pwr)
+library(ggplot2)
+library(dplyr)
+
+# Count the proportion of tests below a certain p-value for each 
+results %>%
+  filter(pval < 0.05) %>%
+  group_by(n) %>%
+  summarise(sig_results = n()/1000)
+
+# Using the pwr package
+library(pwr)
+
+pwr.t.test(n = 40, sig.level = 0.05, d = 1.5/3, type = "one.sample")
+
+
+significant_8 <- sum(results_8$pval < 0.05, na.rm = TRUE)
+
+significant_40 <- sum(results_40$pval < 0.05, na.rm = TRUE)
+```
+
+
+
+
+
+## Oppgave 7
+```{r}
+#| message: false
+#| warning: false
+#| code-fold: true
+
+library(tidyverse)
+
+
+library(pwr)
+effect_size <- 1.5 / 3 
+alpha <- 0.05
+n_8 <- 8 
+power_8 <- pwr.t.test(d = effect_size, n = n_8, sig.level = 0.05, type = "one.sample", alternative = "two.sided")$power
+
+n_40 <- 40
+power_40 <- pwr.t.test(d = effect_size, n = n_40, sig.level = 0.05, type = "one.sample", alternative = "two.sided")$power
+```
+
+Konklusjonen på disse studiene viser til at jo større utvalg det er, jo høyere statestisisk styrke. (power). Med høyere statestistisk styrke jo mer sansynlig er det at vi har funnet en sanhet, og ikke falsk sannhet som i tilfellet hvis det er lav statestistisk styrke, som i tilfellet med n=8 (færre forsøkspersoner) 
+
+
+
+
+
+## Oppgave 8
+
+```{r}
+#| message: false
+#| warning: false
+#| code-fold: true
+
+library(tidyverse)
+
+
+
+population <- rnorm(1000000, mean = 0, sd = 3)
+
+
+# Create data frames to store the model estimates
+results_8 <- data.frame(estimate = rep(NA, 1000), 
+                      se = rep(NA, 1000), 
+                      pval = rep(NA, 1000), 
+                      n = 8 
+
+results_40 <- data.frame(estimate = rep(NA, 1000), 
+                      se = rep(NA, 1000), 
+                      pval = rep(NA, 1000), 
+                      n = 40)
+
+# A for loop used to sample 1000 studies, each iteration (i) will draw a new sample
+# from the population. 
+
+for(i in 1:1000) {
+  
+  # Draw a sample 
+  samp1 <- data.frame(y = sample(population, 8, replace = FALSE))
+  samp2 <- data.frame(y = sample(population, 40, replace = FALSE))
+
+  # Model the data
+  m1 <- lm(y ~ 1, data = samp1)
+  m2 <- lm(y ~ 1, data = samp2)
+  
+  # Extract values from the models
+  results_8[i, 1] <- coef(summary(m1))[1, 1]
+  results_8[i, 2] <- coef(summary(m1))[1, 2]
+  results_8[i, 3] <- coef(summary(m1))[1, 4]
+
+  results_40[i, 1] <- coef(summary(m2))[1, 1]
+  results_40[i, 2] <- coef(summary(m2))[1, 2]
+  results_40[i, 3] <- coef(summary(m2))[1, 4]
+  
+  
+}
+
+
+# Save the results in a combined data frame
+
+results_null <- bind_rows(results_8, results_40)
+```
+
+
+
+```{r}
+#| message: false
+#| warning: false
+#| code-fold: true
+
+library(tidyverse)
+
+# Generer en populasjon
+population <- rnorm(1000000, mean = 0, sd = 3)
+
+# Opprett dataframes for å lagre modellestimatene
+results_8 <- data.frame(estimate = rep(NA, 1000), 
+                         se = rep(NA, 1000), 
+                         pval = rep(NA, 1000), 
+                         n = 8)  # Korrigert: Lagt til avsluttende parentes her
+
+results_40 <- data.frame(estimate = rep(NA, 1000), 
+                          se = rep(NA, 1000), 
+                          pval = rep(NA, 1000), 
+                          n = 40)
+
+# En for-løkke som brukes til å trekke 1000 studier
+for(i in 1:1000) {
+  
+  # Trekk en prøve 
+  samp1 <- data.frame(y = sample(population, 8, replace = FALSE))
+  samp2 <- data.frame(y = sample(population, 40, replace = FALSE))
+
+  # Modeller dataene
+  m1 <- lm(y ~ 1, data = samp1)
+  m2 <- lm(y ~ 1, data = samp2)
+  
+  # Ekstraher verdier fra modellene
+  results_8[i, 1] <- coef(summary(m1))[1, 1]
+  results_8[i, 2] <- coef(summary(m1))[1, 2]
+  results_8[i, 3] <- coef(summary(m1))[1, 4]
+
+  results_40[i, 1] <- coef(summary(m2))[1, 1]
+  results_40[i, 2] <- coef(summary(m2))[1, 2]
+  results_40[i, 3] <- coef(summary(m2))[1, 4]
+}
+
+# Lag en kombinert data frame med resultater
+results_null <- bind_rows(results_8, results_40)
+
+# Plot p-verdiene i histogrammet med facet for prøvestørrelse
+results_null %>%
+  ggplot(aes(pval)) + 
+  geom_histogram() +
+  facet_wrap(~ n)
+
+# Beregn antall signifikante resultater (p < 0.05) for hver prøvestørrelse
+results_null %>%
+  filter(pval < 0.05) %>%
+  group_by(n) %>%
+  summarise(sig_results = n()/1000)
+
+# Beregn andelen falske positive (p < 0.05)
+false_positive_rate <- results_null %>%
+  filter(pval < 0.05) %>%
+  summarise(false_positives = n()) %>%
+  pull(false_positives) / 2000  # Siden jeg har 1000 studier for n=8 og 1000 for n=40
+
+false_positive_rate
+
+```
 
