@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -127,7 +161,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03-statistical-inference.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Assignment 3: Drawing inference from statistical models, and statistical power</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Oppgave 1:</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -165,8 +199,33 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduksjon" id="toc-introduksjon" class="nav-link active" data-scroll-target="#introduksjon"><span class="header-section-number">2.1</span> Introduksjon</a></li>
+  <li><a href="#part-1---lactate-thresholds" id="toc-part-1---lactate-thresholds" class="nav-link" data-scroll-target="#part-1---lactate-thresholds"><span class="header-section-number">2.2</span> Part 1 - Lactate thresholds</a>
+  <ul class="collapse">
+  <li><a href="#metode" id="toc-metode" class="nav-link" data-scroll-target="#metode"><span class="header-section-number">2.2.1</span> Metode</a></li>
+  <li><a href="#resultat" id="toc-resultat" class="nav-link" data-scroll-target="#resultat"><span class="header-section-number">2.2.2</span> Resultat</a></li>
+  <li><a href="#diskusjon" id="toc-diskusjon" class="nav-link" data-scroll-target="#diskusjon"><span class="header-section-number">2.2.3</span> Diskusjon</a></li>
+  </ul></li>
+  <li><a href="#part-2---predicting-sizes-of-dna-fragments" id="toc-part-2---predicting-sizes-of-dna-fragments" class="nav-link" data-scroll-target="#part-2---predicting-sizes-of-dna-fragments"><span class="header-section-number">2.3</span> Part 2 - Predicting sizes of DNA fragments</a>
+  <ul class="collapse">
+  <li><a href="#metode-1" id="toc-metode-1" class="nav-link" data-scroll-target="#metode-1"><span class="header-section-number">2.3.1</span> Metode</a></li>
+  <li><a href="#resultat-1" id="toc-resultat-1" class="nav-link" data-scroll-target="#resultat-1"><span class="header-section-number">2.3.2</span> Resultat</a></li>
+  <li><a href="#diskusjon-1" id="toc-diskusjon-1" class="nav-link" data-scroll-target="#diskusjon-1"><span class="header-section-number">2.3.3</span> Diskusjon</a></li>
+  </ul></li>
+  <li><a href="#part-3---interpreting-a-regression-table" id="toc-part-3---interpreting-a-regression-table" class="nav-link" data-scroll-target="#part-3---interpreting-a-regression-table"><span class="header-section-number">2.4</span> Part 3 - Interpreting a regression table</a>
+  <ul class="collapse">
+  <li><a href="#metode-2" id="toc-metode-2" class="nav-link" data-scroll-target="#metode-2"><span class="header-section-number">2.4.1</span> Metode</a></li>
+  <li><a href="#resultat-2" id="toc-resultat-2" class="nav-link" data-scroll-target="#resultat-2"><span class="header-section-number">2.4.2</span> Resultat</a></li>
+  <li><a href="#diskusjon-2" id="toc-diskusjon-2" class="nav-link" data-scroll-target="#diskusjon-2"><span class="header-section-number">2.4.3</span> Diskusjon</a></li>
+  </ul></li>
+  <li><a href="#referanser" id="toc-referanser" class="nav-link" data-scroll-target="#referanser"><span class="header-section-number">2.5</span> Referanser</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -190,14 +249,743 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>The assignment has three parts:</p>
-<ul>
-<li>Part 1: Lactate thresholds</li>
-<li>Part 2: Predicting sizes of DNA fragments</li>
-<li>Part 3: Interpreting a regression table</li>
-</ul>
+<section id="introduksjon" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="introduksjon"><span class="header-section-number">2.1</span> Introduksjon</h2>
+<p>En regresjonsmodell er en modell som kvantifiserer forholdet mellom en eller flere uavhengige variabler og en avhengig variabel. Innen medisin er regresjon den analysemtoden som er hyppigst anvendt. Det finnes forskjellige regresjonsmodeller. De vanligste er lineær regresjon, polynominal regresjon og logistisk regresjon. Hva man har av datasett vil bestemme hvilken regresjonsmodell som egner seg best å benytte <span class="citation" data-cites="Pisica2022">(<a href="#ref-Pisica2022" role="doc-biblioref"><strong>Pisica2022?</strong></a>)</span>.</p>
+<p>En lineær regresjonsmodell er en modell der en kan estimere verdien av en avhengig variabel basert på verdien av andre kjente uavhengige variabler <span class="citation" data-cites="Pisica2022">(<a href="#ref-Pisica2022" role="doc-biblioref"><strong>Pisica2022?</strong></a>)</span>. I en slik modell benyttes en rett linje for å lage en modell som beskriver dataen. Følgende funksjon benyttes for å skape det lineære plottet:</p>
+<p>y<sub>i</sub> = b<sub>0</sub> + b<sub>1</sub>x<sub>i</sub> + e<sub>i</sub></p>
+<p>der y<sub>i</sub> er den avhengige variabelen som kan estimeres ved å benytte de uavhengige variablene b<sub>1</sub>x<sub>i</sub> og b<sub>0</sub>. b<sub>0</sub> er skjæringspunktet til grafen og b<sub>1</sub> er stigningstallet til grafen.</p>
+</section>
+<section id="part-1---lactate-thresholds" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="part-1---lactate-thresholds"><span class="header-section-number">2.2</span> Part 1 - Lactate thresholds</h2>
+<section id="metode" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="metode"><span class="header-section-number">2.2.1</span> Metode</h3>
+<p>Dataene ble sortert i mer passende format (tidydata) for å gjøre det lettere med modellene våre senere. Deretter ble det gjort ulike regresjonsmodeller for å fremstille dataene våre. Nye skjæringspunkter ble tegnet for å illustrere treningsintensitet ved ulike laktatverdier.</p>
+</section>
+<section id="resultat" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="resultat"><span class="header-section-number">2.2.2</span> Resultat</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(exscidata)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggtext)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Kalkuler treningsintensitet ved 2 og 4 mmol/L</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> cyclingstudy <span class="sc">|&gt;</span> </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(subject, group, timepoint, lac<span class="fl">.225</span><span class="sc">:</span>lac<span class="fl">.375</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(timepoint <span class="sc">==</span> <span class="st">"pre"</span>, subject <span class="sc">==</span> <span class="dv">10</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">names_to =</span> <span class="st">"watt"</span>, </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"lac"</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_prefix =</span> <span class="st">"lac."</span>, </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_transform =</span> <span class="fu">list</span>(<span class="at">watt =</span> as.numeric),</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>               <span class="at">cols =</span> lac<span class="fl">.225</span><span class="sc">:</span>lac<span class="fl">.375</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(lac <span class="sc">~</span> watt, <span class="at">data =</span> w)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>w <span class="sc">|&gt;</span> </span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(watt, lac, <span class="at">group =</span> subject)) <span class="sc">+</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Watt"</span>,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Laktat"</span>) <span class="sc">+</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">fill =</span> <span class="st">"gold"</span>) <span class="sc">+</span> </span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">lty =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">2</span>), <span class="at">color =</span> <span class="st">"lightgreen"</span>) <span class="sc">+</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">3</span>), <span class="at">color =</span> <span class="st">"lightpink"</span>) <span class="sc">+</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">220</span>, <span class="dv">380</span>)) <span class="sc">+</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">4</span>, <span class="at">color =</span> <span class="st">"purple"</span>) <span class="sc">+</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Legger inn en vertikal linje, med y = 2mmol, skjæringspunkt 308W, tatt på øyemål.</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">309</span>, <span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Legger inn en vertikal linje med y = 4mmol, skjæringspunkt 342W, tatt på øyemål.</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">342</span>, <span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="02-regression-models_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Figur 1: Gule punkter = laktat og watt, blå linje = lineær regresjon, grønn linje = andregradsligning, rosa = tredjegradsligning.</figcaption>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x2lac <span class="ot">&lt;-</span> (<span class="dv">2</span> <span class="sc">-</span> <span class="fu">coef</span>(mod)[<span class="dv">1</span>]) <span class="sc">/</span> <span class="fu">coef</span>(mod)[<span class="dv">2</span>]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>x4lac <span class="ot">&lt;-</span> (<span class="dv">4</span> <span class="sc">-</span> <span class="fu">coef</span>(mod)[<span class="dv">1</span>]) <span class="sc">/</span> <span class="fu">coef</span>(mod)[<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="diskusjon" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="diskusjon"><span class="header-section-number">2.2.3</span> Diskusjon</h3>
+<p>Vi har valgt å se på subject 10 fra datasettet Cyclingstudy. Vi gjør om datasettet til tidydata. Dette gjør vi for å gi watt og laktat hver sine verdier. Vi plotter inn laktatverdier og wattverdier (gule punkter). Deretter tegner vi en stiplet linje som følger punktene. Vi gjør en regresjonsanalyse, først en lineær modell (blå linje), deretter en andregradsligning (grønn) og til slutt en tredjegradsligning (rosa). Disse bruker vi for å observere hvilken modell som passer best i dette tilfellet.</p>
+<p>For å understreke hvor unøyaktig den lineære modellen er i dette tilfellet, kan man på øyemål se at laktaten på 300W viser omtrent 2.4 mmol <strong>×</strong> L<sup>-1</sup>. Den faktiske laktaten på 300W er 1.69 mmol <strong>×</strong> L<sup>-1</sup>.</p>
+</section>
+</section>
+<section id="part-2---predicting-sizes-of-dna-fragments" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="part-2---predicting-sizes-of-dna-fragments"><span class="header-section-number">2.3</span> Part 2 - Predicting sizes of DNA fragments</h2>
+<section id="metode-1" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="metode-1"><span class="header-section-number">2.3.1</span> Metode</h3>
+<p>For å kunne predikere kalibreringskurven til qPCR, er det en rekke prosesser på molekylærlabben som er gjort på forhånd før det kunne kjørers i R-studio.</p>
+<p>For å kunne kjøre et PCR på en agrose gel 2%, ble det først tatt helbod fra en forsøksperson for å kunne ha et ekstrahert DNA. Helblodet vært igjen ulike prosesser hvor det er tilsatt ulike løsninger og tilsatt ulike primere. Vi står da igjen med et PCR-produkt. Det har videre blitt kjørt en elektroforese for å kunne separere DNA fragmentene fra PCR reaksjonen. Når elektroforesen var ferdig, ble det tatt et bilde av agrose gel 2%.</p>
+<p>Videre har bildet fra elektroforesen blitt analysert ved hjelp av ImageJFiji og videre dataanalyser gjort i R og R studio. PCR-reaksjoner blir bestemt av primerdesign og dens spesifisitet.</p>
+</section>
+<section id="resultat-1" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="resultat-1"><span class="header-section-number">2.3.2</span> Resultat</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ladder <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">dist =</span> <span class="fu">c</span>(<span class="fl">374.5</span>, <span class="fl">396.5</span>, <span class="fl">423.5</span>, <span class="fl">458.5</span>, <span class="fl">496.5</span>, <span class="fl">547.5</span>,<span class="fl">607.5</span>,<span class="fl">688.5</span>,<span class="fl">734.5</span>,<span class="fl">792.5</span>,<span class="fl">860.5</span>,<span class="fl">936.5</span>,<span class="fl">1035.5</span>), </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                     </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">mw =</span> <span class="fu">c</span>(<span class="dv">1000</span>, <span class="dv">900</span>, <span class="dv">800</span>, </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                            <span class="dv">700</span>, <span class="dv">600</span>, <span class="dv">500</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                            <span class="dv">400</span>, <span class="dv">300</span>, <span class="dv">250</span>, </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                            <span class="dv">200</span>, <span class="dv">150</span>, <span class="dv">100</span>, <span class="dv">50</span>))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new data frame of unknowns</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>unknown <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">dist =</span> <span class="fu">c</span>(<span class="fl">1208.5</span>, <span class="fl">600.5</span>, <span class="fl">18.5</span>, <span class="fl">383.5</span>, <span class="fl">408.5</span>, <span class="fl">436.5</span>, <span class="fl">470.5</span>, <span class="fl">508.5</span>, <span class="fl">559.5</span>, <span class="fl">618.5</span>, <span class="fl">696.5</span>, <span class="fl">742.5</span>, <span class="fl">798.5</span>, <span class="fl">862.5</span>, <span class="fl">935.5</span>, <span class="fl">993.5</span>))</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>cal <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(mw) <span class="sc">~</span> dist, <span class="at">data =</span> ladder)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>preds <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">predict</span>(cal, <span class="at">newdata =</span> unknown))</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>ladder <span class="sc">%&gt;%</span> </span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(dist, <span class="fu">log</span>(mw))) <span class="sc">+</span> </span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>           <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="fu">coef</span>(cal)[<span class="dv">1</span>], <span class="at">slope =</span> <span class="fu">coef</span>(cal)[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02-regression-models_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dataframe2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">unknowns =</span> <span class="fu">c</span>(<span class="fl">1208.5</span>, <span class="fl">600.5</span>, <span class="fl">18.5</span>, <span class="fl">383.5</span>, <span class="fl">408.5</span>, <span class="fl">436.5</span>, <span class="fl">470.5</span>, <span class="fl">508.5</span>, <span class="fl">559.5</span>, <span class="fl">618.5</span>, <span class="fl">696.5</span>, <span class="fl">742.5</span>, <span class="fl">798.5</span>, <span class="fl">862.5</span>, <span class="fl">935.5</span>, <span class="fl">993.5</span>),</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                         (preds))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  dataframe2 <span class="sc">|&gt;</span> <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="helgxbgeit" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#helgxbgeit table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#helgxbgeit thead, #helgxbgeit tbody, #helgxbgeit tfoot, #helgxbgeit tr, #helgxbgeit td, #helgxbgeit th {
+  border-style: none;
+}
+
+#helgxbgeit p {
+  margin: 0;
+  padding: 0;
+}
+
+#helgxbgeit .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#helgxbgeit .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#helgxbgeit .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#helgxbgeit .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#helgxbgeit .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#helgxbgeit .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#helgxbgeit .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#helgxbgeit .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#helgxbgeit .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#helgxbgeit .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#helgxbgeit .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#helgxbgeit .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#helgxbgeit .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#helgxbgeit .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#helgxbgeit .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#helgxbgeit .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#helgxbgeit .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#helgxbgeit .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#helgxbgeit .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#helgxbgeit .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#helgxbgeit .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#helgxbgeit .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#helgxbgeit .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#helgxbgeit .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#helgxbgeit .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#helgxbgeit .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#helgxbgeit .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#helgxbgeit .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#helgxbgeit .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#helgxbgeit .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#helgxbgeit .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#helgxbgeit .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#helgxbgeit .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#helgxbgeit .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#helgxbgeit .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#helgxbgeit .gt_left {
+  text-align: left;
+}
+
+#helgxbgeit .gt_center {
+  text-align: center;
+}
+
+#helgxbgeit .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#helgxbgeit .gt_font_normal {
+  font-weight: normal;
+}
+
+#helgxbgeit .gt_font_bold {
+  font-weight: bold;
+}
+
+#helgxbgeit .gt_font_italic {
+  font-style: italic;
+}
+
+#helgxbgeit .gt_super {
+  font-size: 65%;
+}
+
+#helgxbgeit .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#helgxbgeit .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#helgxbgeit .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#helgxbgeit .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#helgxbgeit .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#helgxbgeit .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#helgxbgeit .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#helgxbgeit .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#helgxbgeit div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th id="unknowns" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">unknowns</th>
+<th id="X.preds." class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">X.preds.</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_right" headers="unknowns">1208.5</td>
+<td class="gt_row gt_right" headers="X.preds.">31.22469</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="unknowns">600.5</td>
+<td class="gt_row gt_right" headers="X.preds.">400.04598</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="unknowns">18.5</td>
+<td class="gt_row gt_right" headers="X.preds.">4595.75349</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="unknowns">383.5</td>
+<td class="gt_row gt_right" headers="X.preds.">994.08908</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="unknowns">408.5</td>
+<td class="gt_row gt_right" headers="X.preds.">895.12164</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="unknowns">436.5</td>
+<td class="gt_row gt_right" headers="X.preds.">795.92770</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="unknowns">470.5</td>
+<td class="gt_row gt_right" headers="X.preds.">690.13619</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="unknowns">508.5</td>
+<td class="gt_row gt_right" headers="X.preds.">588.44932</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="unknowns">559.5</td>
+<td class="gt_row gt_right" headers="X.preds.">475.11729</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="unknowns">618.5</td>
+<td class="gt_row gt_right" headers="X.preds.">370.95290</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="unknowns">696.5</td>
+<td class="gt_row gt_right" headers="X.preds.">267.43845</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="unknowns">742.5</td>
+<td class="gt_row gt_right" headers="X.preds.">220.50796</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="unknowns">798.5</td>
+<td class="gt_row gt_right" headers="X.preds.">174.34415</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="unknowns">862.5</td>
+<td class="gt_row gt_right" headers="X.preds.">133.29586</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="unknowns">935.5</td>
+<td class="gt_row gt_right" headers="X.preds.">98.13646</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="unknowns">993.5</td>
+<td class="gt_row gt_right" headers="X.preds.">76.94317</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="diskusjon-1" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="diskusjon-1"><span class="header-section-number">2.3.3</span> Diskusjon</h3>
+</section>
+</section>
+<section id="part-3---interpreting-a-regression-table" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="part-3---interpreting-a-regression-table"><span class="header-section-number">2.4</span> Part 3 - Interpreting a regression table</h2>
+<section id="metode-2" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="metode-2"><span class="header-section-number">2.4.1</span> Metode</h3>
+</section>
+<section id="resultat-2" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="resultat-2"><span class="header-section-number">2.4.2</span> Resultat</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(exscidata)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># sammenheng mellom tykkelse vastus lateralis t2 og konsentrasjon av testosterone ved t2</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> hypertrophy <span class="sc">|&gt;</span> </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(GROUP, TRAINING_AGE, AGE, CLUSTER, VL_T2, TESTOSTERONE_T1, TESTOSTERONE_T2)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(TESTOSTERONE_T1 <span class="sc">~</span> TRAINING_AGE, dat)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  dat <span class="sc">|&gt;</span> </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(TRAINING_AGE, TESTOSTERONE_T1)) <span class="sc">+</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Treningsalder (år)"</span>,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="fu">expression</span>(Testosteronverdier <span class="sc">~</span> ng <span class="sc">%.%</span> dl<span class="sc">^</span>{<span class="sc">-</span><span class="dv">1</span>})) <span class="sc">+</span>  </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># use expression for superscript</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">fill =</span> <span class="st">"orange"</span>) <span class="sc">+</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="fu">coef</span>(m)[<span class="dv">1</span>], <span class="at">slope =</span> <span class="fu">coef</span>(m)[<span class="dv">2</span>], <span class="at">color =</span> <span class="st">"steelblue"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">coef</span>(m)[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">coef</span>(m)[<span class="dv">2</span>] <span class="sc">*</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"darkgreen"</span>) <span class="sc">+</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"darkred"</span>) <span class="sc">+</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">200</span>, <span class="dv">354</span>, <span class="dv">400</span>, <span class="dv">600</span>, <span class="dv">800</span>, <span class="dv">1000</span>), </span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="dv">200</span>, <span class="st">"testo10"</span>, <span class="dv">400</span>, <span class="dv">600</span>, <span class="dv">800</span>, <span class="dv">1000</span>)) <span class="sc">+</span> </span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="02-regression-models_files/figure-html/tolkning av regresjonsmodell-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Figur 3: Sammenheng mellom treningsalder og testosteronverdier i blodet</figcaption>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Den lineære modellen forteller i dette tilfellet at for hvert år man trener, så vil nivå av testosterone synke med 20.51 ng*dl&lt;sup&gt;-1&lt;/sup&gt;. I tillegg kan man estimere testonivå etter å ha trent i 10 år. Dette vil vi gjøre med følgende utregning: </span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>testo10 <span class="ot">&lt;-</span> <span class="fu">coef</span>(m)[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">coef</span>(m)[<span class="dv">2</span>] <span class="sc">*</span> <span class="dv">10</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>testo10rounded <span class="ot">&lt;-</span> <span class="fu">round</span>(testo10, <span class="dv">2</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># testosteronnivå etter 10 år med trening estimeres til 354.26 ng*dl^-1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="diskusjon-2" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3" class="anchored" data-anchor-id="diskusjon-2"><span class="header-section-number">2.4.3</span> Diskusjon</h3>
+<p>Fra datasettet hypertrophy valgte vi å se på sammenhengen mellom testosteronkonsentrasjon i blodet (ng <strong>×</strong> dl<sup>-1</sup>) og treningsalder (antall år med trening). Den lineære modellen forteller at testosteronkonsentrasjonen i blodet synker med 20.51 ng <strong>×</strong> dl<sup>-1</sup> for hvert treningsår. Etter 10 år med trening, estimerer den lineære modellen et testosteronnivå på 354.26 ng <strong>×</strong> dl<sup>-1</sup>.</p>
+<p>Analysen av dataene viser en p-verdi på 0,1779, noe som indikerer at det ikke er statistisk signifikant bevis for en sammenheng mellom treningsalder og nivået av testosteron i blodet. Siden p-verdien er høyere enn det vanlige signifikansnivået på 0,05, kan vi ikke avvise nullhypotesen, som antyder at det ikke er noen betydelig effekt eller sammenheng mellom de to variablene i dette datasettet. Dette betyr at variasjonen i testosteronnivåer ikke ser ut til å være relatert til hvor lenge individene har trent.</p>
+<p>I analysen av sammenhengen mellom treningsalder og testosteronnivåer i blodet ses det en t-verdi på 6.250. Den høye t-verdien på 6.250, og en p-verdi på 0,1779. Denne p-verdien er høyere enn det vanlige signifikansnivået på 0,05, noe som betyr at vi ikke har tilstrekkelig statistisk bevis for å avvise nullhypotesen. Selv om t-verdien indikerer en mulig sammenheng mellom treningsalder og testosteronnivå, er det ikke nok evidens til å konkludere med at denne sammenhengen er signifikant. Dermed kan vi konkludere med at selv om det kan være en tendens til en sammenheng mellom treningsalder og testosteronnivåer, er resultatene fra denne analysen ikke sterke nok til å si at treningsalder har en reell effekt på testosteronnivåene i blodet.</p>
+</section>
+</section>
+<section id="referanser" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="referanser"><span class="header-section-number">2.5</span> Referanser</h2>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -627,8 +1415,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./03-statistical-inference.html" class="pagination-link" aria-label="Assignment 3: Drawing inference from statistical models, and statistical power">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Assignment 3: Drawing inference from statistical models, and statistical power</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./03-statistical-inference.html" class="pagination-link" aria-label="Oppgave 1:">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Oppgave 1:</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
