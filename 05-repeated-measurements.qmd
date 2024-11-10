@@ -3,245 +3,47 @@ output: html_document
 editor_options: 
   chunk_output_type: console
 ---
-# Assignment 5: Analyzing repeated measures experiments {#assignment5}
+Arbeidskrav 5
 
-## Assignment overview
+## Introduksjon:
 
-In this assignment you will analyse and report on trial investigating the effect of resistance training volume on lean mass and muscle strength. The data are part of the `exscidata` package and can be accessed as `data("strengthvolume")` and `data("dxadata")`. Read the [instructions carefully](https://dhammarstrom.github.io/quant-methods-workshops/assignment-5.html)!
+Styrketrening er en viktig del av fysisk trening. Styrketrening er viktig i ett helseperspektiv ved å forebygge helsemessige utfordringer, dette kan for eksempel være muskelatrofi og svekket beinstyrke (Jespersen et al. 2003). Styrketrening har også vist seg og være viktig for og forbedre fysisk prestasjon (Rønnestad et al. 2014). Maksimal styrketrening avhenger hovedsakelig av muskelmasse, og det er en rekke faktorer man kan påvirke for og øke muskelmasse og muskelstyrke. (Raastad et al., 2010). Hvordan fordele treningsvolum, frekvens og motstand optimalt kan variere fra person til person, her spiller genetikken også inn. Treningsvolum i styrkesammenheng vil si antall sett per muskelgruppe i løpet av en uke. (Grgic et al. 2022). Fokuset rundt treningsvolum og styrketrening har i lengre tid vært ett stort tema. Det er vist i tidligere studier at ett lavt treningsvolum har ført til samme forbedringer som moderat treningsvolum. (Mitchell et al., 2012). Det kan spekuleres om det også er forskjeller når det gjelder godt styrketrente personer og dårlig styrketrente personer. Der det kan tyde på at det vil kreves ett større stimuli jo høyere nivå du er på. (Hughes, Ellefsen & Baar, 2018)
 
+Selv om vi de aller fleste vet at styrketrening er viktig for helsa, er det mange personer som ikke gjennomfører regelmessig styrketrening. Begrensinger kan være kunnskap og evnen til og klare og sette av tid og prioritere det. trene (Choi et al., 2017) Derfor kan det være veldig hensiktsmessig og kunne finne ut mer rundt hvor mye stimuli og treningsvolum som faktisk kreves for og klare og få de adaptasjonene vi vil og de positive helsemessige gevinstene. Vi ser også at veldig mange i samfunnet nå blir mer og mer stillesittende, kan dette skape store problemer for helsa til mange personer i samfunnet. Studier viser også at muskelmasse og muskelstyrke reduseres spesielt ved økende alder, og rundt 50 år spesielt. Ved redusert styrke kan det føre til en rekke negative konsekvenser. Det at man som eldre mister muskelmasse er en naturlig prosess, men ved gjennomføring av styrketrening kan vi bremse denne utviklingen. (Marzetti et al 2006). 
 
-> Below you will find a basic outline of the report and example code that we worked on in class.
+Studiene Rhea et al. (2002) viste at gruppen som trente tre sett per øvelse hadde en større økning i muskelstyrke sammenlignet med den gruppen som trente med bare ett sett. Rønnestad et al. (2007) fant også ut at tre sett hadde bedre resultater enn gruppen som trente ett sett. Basert på studier som er gjort tidligere har denne studien som mål og se på forskjeller i muskelstyrke og muskelmasse der en gruppe trener med ett sett og en annen gruppe kjører tre sett. Det gjennomføres på beina. Resultatene kan finne ut hvordan forskjellige treningsvolumer påvirker styrken vår og muskelmassen. 
 
-## Introduction
 
-## Methods
+## Metode
 
-### Participants and study overview
+#Deltagere
 
-### Muscle strength and hypertrophy
+I studien ble det rekruttert 41 mannlige og kvinnelige deltagere. Det var noen krav som måtte dekkes for og kunne være med i studien, og det var at personene måtte være mellom 18-40 år og ikke røyke. Personene kunne ikke ha trent mer enn en ukentlig styrkeøkt det siste året, samtidig som de ikke skulle ha noe nedsatt muskelstyrke ved noen tidligere skader eller lignende. De skulle heller ikke gå på noe medisiner som kunne påvirke eller forstyrre effektene for treningen. Etter studien ble sju personer tatt vekk fra dataanalysen fordi de ikke hadde gjennomført tilstrekkelig av de obligatoriske øktene (85%) i treningsintervensjonen.  
 
-### Data analysis and statistics
 
-## Results
+## Intervensjon:
 
-```{r}
-#| label: "Load packages and data"
-#| warning: false
-#| message: false
-#| echo: false
-#| output: false
+Perioden ble gjennomført i løpet av 12-ukers styrketrening av hele kroppen. Underekstremitetene ble trent unilateralt. Dette gjør det mulig å gjennomføre forskjellig treningsvolum på beina. Det ble gjennomført lavt volum på det ene beinet og moderat på det andre. Det ble gjennomført ett sett på beinet som hadde lavt treningsvolum, og tre sett på det med moderat treningsvolum. Det ble gjennomført treningsøkter to til tre ganger i uken.  Før hver treningsøkt gjennomførte personene en standardisert oppvarmingsprotokol. Den bestod av 5 minutter sykling på ergometersykkel, deretter ti repetisjoner av kroppsvektøvelser som push-ups, sit-ups, rygg hev og knebøy. Etter dette gjennomførte de ett sett med ti repetisjoner på 50% av 1RM (maksimalt løft) for hver styrkeøvelse. De tre beinøvelsene som ble gjennomført var unilateralt beinpress, leg-curl og kneekstensjon. Under teningsøkene hadde personene 90 til 180 sekunder pause mellom hver sett. Når det gjelder kosthold ble deltagerne bedt om å logge kosthold, samtidig som de fikk et standardisert energipåfyll, hhv. 0,16 g protein, 11,2 g karbohydrater og 0,5 g fett per kilo kroppsvekt. Dette var for og sikre at deltagerne fikk ett likt tilskudd av energi etter trening slik at ikke restitusjonen ble påvirket forskjellig på grunn av dette. 
 
 
 
-library(tidyverse); library(exscidata)
-library(lme4)
 
 
-## Import data set, extract leg lean mass per leg and remove observations
-# that are include == "excl".
+Referanser
 
-leanmass <- dxadata %>%
-  select(participant:include, lean.left_leg, lean.right_leg) %>%
-  pivot_longer(names_to = "leg", 
-               values_to = "lean.mass", 
-               cols = lean.left_leg:lean.right_leg) %>%
-  mutate(leg = if_else(leg == "lean.left_leg", "L", "R"), 
-         sets = if_else(multiple == leg, "multiple", "single")) %>%
-  select(participant, time, sex, include, sets, leg, lean.mass) %>%
-  filter(include == "incl") %>%
-  
-  ## Change levels for time and sets
-  mutate(time = factor(time, levels = c("pre", "post")), 
-         sets = factor(sets, levels = c("single", "multiple")), 
-         leg = paste0(participant, leg)) %>%
-  
-  print()
+https://pubmed.ncbi.nlm.nih.gov/17052879/
 
+https://pubmed.ncbi.nlm.nih.gov/14531367/
 
-# Create a wide data set of change scores per volume condition
-# suitable for a t-test
-leanmass_change_wide <- leanmass %>%
-  pivot_wider(names_from = time, values_from = lean.mass) %>%
-  mutate(change = post - pre) %>%
-  
-  select(participant, sex, sets, change) %>%
-  pivot_wider(names_from = sets, 
-              values_from = change) %>%
-  
-  mutate(diff = multiple - single) %>%
-  
-  print()
+https://pubmed.ncbi.nlm.nih.gov/23914932/
 
+https://pubmed.ncbi.nlm.nih.gov/33497853/
 
-leanmass_change_wide_time <- leanmass %>%
-  pivot_wider(names_from = time, values_from = lean.mass) %>%
+Mitchell, C. J., Churchward-Venne, T. A., West, D. W., Burd, N. A., Breen, L., Baker, S. K., & Phillips, S. M. (2012). Resistance exercise load does not determine training-mediated hypertrophic gains in young men. Journal of applied physiology (Bethesda, Md. : 1985), 113(1), 71–77. https://doi.org/10.1152/japplphysiol.00307.2012
 
-  select(participant, sex, sets, pre, post) %>%
-  
-  print()
+Raastad, T., Paulsen, G., Refsnes, P. E., Rønnestad, B. R.& Wisnes, A. R. (2010). Styrketrening- i teori og praksis. Gyldendal Norsk forlag AS
 
+Hughes, D. C., Ellefsen, S., & Baar, K. (2018). Adaptations to Endurance and Strength Training. Cold Spring Harbor perspectives in medicine, 8(6), a029769. https://doi.org/10.1101/cshperspect.a029769 
 
-
-
-## Do a t-test on change scores per condition. 
-
-## Alternatives (paired, equal variation)
-tt1 <- with(leanmass_change_wide, t.test(multiple, single, paired = TRUE))
-
-## The same model but with lm
-m1 <- lm(diff ~ 1, data = leanmass_change_wide)
-
-summary(m1)
-
-
-
-
-### Mixed effects model
-# A mixed effects model allowing for a random slope for time is very similar 
-# to the t-test used above. 
-
-m2 <- lmer(lean.mass ~ time * sets +( 1 + time |participant), 
-           data = leanmass)
-
-# Check the summary 
-summary(m2)
-# Check assumptions of equal residual variance
-plot(m2)
-
-## Mixed-Effects ANCOVA
-
-# The lm model does not contain information on multiple
-# observations per participant
-m3 <- lm(post ~ pre + sets, data = leanmass_change_wide_time)
-
-
-# A more correct model also include random intercepts per 
-# participant. Mixed effects ANCOVA mnodel:
-m4 <- lmer(post ~ pre + sets + (1|participant), 
-           data = leanmass_change_wide_time)
-
-
-summary(m3)
-
-summary(m4)
-
-
-
-### How to extract data from a model:
-
-# m1 is a linear model of difference in differences
-# we can use it for inference, extract average diff and confidence 
-# intervals and p-value
-
-# Save all elements of inline results
-m1pval <- round(coef(summary(m1))[1, 4], 3)
-m1est <- round(coef(summary(m1))[1, 1], 1)
-
-m1ciu <- round(confint(m1)[1,2], 1)
-m1cil <- round(confint(m1)[1,1], 1)
-
-# Combine into an object
-m1results <- paste0(m1est, 
-                    ", 95% CI: [",
-                    m1cil, 
-                    ", ",
-                    m1ciu, 
-                    "], p = ",
-                    m1pval
-                    )
-
-
-
-
-
-```
-
-The average difference in lean mass changes between sets were `r m1results`.
-
-
-
-```{r}
-
-## Time points in strength data set
-
-strengthvolume %>%
-  distinct(exercise)
-
-
-
-## Exploratory plot of strength data 
-
-str <- strengthvolume %>%
-  filter(include == "incl") %>%
-  mutate(time = factor(time, levels = c("pre", "session1", 
-                                        "week2", "week5", 
-                                        "week9", "post"))) %>%
-  print()
-
-
-str %>%
-  ggplot(aes(time, 
-             load, 
-             group = paste(participant, sets), 
-             color = sets)) + 
-  geom_line() + 
-  facet_wrap(~ exercise, scales = "free")
-  
-
-## How many measurements per participant
-
-str %>%
-  filter(!is.na(load)) %>%
-  group_by(participant, exercise, sets) %>%
-  summarise(n = n() ) %>%
-  ggplot(aes(n, participant, color = sets)) +
-  geom_point() + 
-  facet_wrap(~ exercise) + 
-  theme(axis.text.y = element_blank())
-
-
-
-## Use pre and post data 
-# Combine pre data prior to data analysis
-# per exercise, leg, participant, and sets
-
-str %>%
-  mutate(time = if_else(time %in% c("pre", "session1"), "pre", time)) %>%
-  
-  filter(time %in% c("pre", "post")) %>%
-  
-  summarise(load = max(load, na.rm = TRUE), 
-            .by = c(participant, 
-                    sex, 
-                    time, 
-                    sets,
-                    exercise,
-                    leg)) %>%
-  
-  print()
-
-
-
-
-
-
-
-
-
-
-
-```
-
-
-
-
-
-## Discussion
-
-## Conclusion
-
-
-
-
-
+Choi, J., Lee, M., Lee, J. K., Kang, D., & Choi, J. Y. (2017). Correlates associated with participation in physical activity among adults: a systematic review of reviews and update. BMC public health, 17(1), 356. https://doi.org/10.1186/s12889-017-4255-2
 
