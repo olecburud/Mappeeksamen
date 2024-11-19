@@ -3,7 +3,30 @@ output: html_document
 editor_options: 
   chunk_output_type: console
 ---
-Arbeidskrav 5
+
+# Assignment 5: Analyzing repeated measures experiments
+
+
+```{r}
+
+#| label: "laste opp pakker og data"
+#| warning: false
+#| message: false
+#| echo: false
+#| output: false
+
+library(tidyverse)
+library(ggplot2)
+library(exscidata)
+library(gt)
+library(lme4)
+library(dplyr)
+library(knitr)
+data("strengthvolume")
+data("dxadata")
+
+```
+
 
 ## Introduksjon:
 
@@ -20,10 +43,256 @@ Studiene Rhea et al. (2002) viste at gruppen som trente tre sett per øvelse had
 
 I studien ble det rekruttert 41 mannlige og kvinnelige deltagere. Det var noen krav som måtte dekkes for og kunne være med i studien, og det var at personene måtte være mellom 18-40 år og ikke røyke. Personene kunne ikke ha trent mer enn en ukentlig styrkeøkt det siste året, samtidig som de ikke skulle ha noe nedsatt muskelstyrke ved noen tidligere skader eller lignende. De skulle heller ikke gå på noe medisiner som kunne påvirke eller forstyrre effektene for treningen. Etter studien ble sju personer tatt vekk fra dataanalysen fordi de ikke hadde gjennomført tilstrekkelig av de obligatoriske øktene (85%) i treningsintervensjonen.  
 
+```{r}
+#| label: "tbl-kar"
+#| warning: false
+#| message: false
+#| echo: false
+#| tbl-cap: "Karakteristikk av deltakerene"
+
+dxadata %>%
+  filter(include == "incl", time == "pre") %>%
+  pivot_longer(cols = c(age, height, weight), names_to = "Variable") %>%
+  group_by(Variable) %>%
+  summarize(
+    N = n(),
+    Avg = round(mean(value, na.rm = TRUE), 1),
+    SD = paste0("(", round(sd(value, na.rm = TRUE), 1), ")")
+  ) %>%
+  gt() %>%
+  tab_footnote(footnote = "Avg = Gjennomsnitt, SD = Standardavvik")
+
+```
+
 
 ## Intervensjon:
 
 Perioden ble gjennomført i løpet av 12-ukers styrketrening av hele kroppen. Underekstremitetene ble trent unilateralt. Dette gjør det mulig å gjennomføre forskjellig treningsvolum på beina. Det ble gjennomført lavt volum på det ene beinet og moderat på det andre. Det ble gjennomført ett sett på beinet som hadde lavt treningsvolum, og tre sett på det med moderat treningsvolum. Det ble gjennomført treningsøkter to til tre ganger i uken.  Før hver treningsøkt gjennomførte personene en standardisert oppvarmingsprotokol. Den bestod av 5 minutter sykling på ergometersykkel, deretter ti repetisjoner av kroppsvektøvelser som push-ups, sit-ups, rygg hev og knebøy. Etter dette gjennomførte de ett sett med ti repetisjoner på 50% av 1RM (maksimalt løft) for hver styrkeøvelse. De tre beinøvelsene som ble gjennomført var unilateralt beinpress, leg-curl og kneekstensjon. Under teningsøkene hadde personene 90 til 180 sekunder pause mellom hver sett. Når det gjelder kosthold ble deltagerne bedt om å logge kosthold, samtidig som de fikk et standardisert energipåfyll, hhv. 0,16 g protein, 11,2 g karbohydrater og 0,5 g fett per kilo kroppsvekt. Dette var for og sikre at deltagerne fikk ett likt tilskudd av energi etter trening slik at ikke restitusjonen ble påvirket forskjellig på grunn av dette. 
+
+
+## Målinger
+
+I studien ble det brukt en repetisjon maksimum (1RM) i kneekstensjon som mål på maksimal styrke. Det ble gjennomført en standardisert oppvarming i forkant av mål på maksimal styrke. Denne oppvarmingen bestod av 10, 6 og 3 repetisjoner på en belastning tilsvarende 50, 75 og 85 % av antatt 1RM. Videre gjennomførte deltakeren fire til seks forsøk der de økte belastning per sett og til slutt til den belastninger der de ikke klart og løfte vekten. Den siste repetisjonen med fullt bevegelsesutslag ble da definert som 1RM.
+
+Det ble også målt andel fettfri masse før og etter intervensjons perioden. Det ble mål ved bruk av dual-energy X-ray absorptiometry (DXA), (Lunar Prodigy, GE Healthcare, Oslo, Norge). Det var standardisert 48 timer opphold mellom siste styrkeøkt og DXA, samt at deltakerne skulle faste 2 timer før test og avstå fra krevende fysisk aktivitet de siste 48 timer. 
+
+
+## Dataanalyse og statistikk
+
+De statiske analysene ble gjort i R studio (Kilde). Det ble gjennomført enkle lineære regresjonsmodeller for og se differansen mellom gruppene som gjennomførte ett sett kontra tre sett. Det ble sett på mager muskelmasse i beinet som trente ett sett kontra tre for og se endringer i muskelmasse. Signifikansnivået i studien ble satt til p < 0,05. Dette vil da si at resultater som viser til en p-verdi under dette blir ansett som statistisk signifikante.  
+
+
+## Resultater
+
+
+```{r}
+#| label: "komprimere datasett"
+#| warning: false
+#| message: false
+#| echo: false
+#| output: false
+
+#tilpasse dxa-datasett
+
+ffmasse <- dxadata %>%
+  select(participant:include, lean.left_leg, lean.right_leg) %>%
+  pivot_longer(names_to = "leg", 
+               values_to = "lean.mass", 
+               cols = lean.left_leg:lean.right_leg) %>%
+  mutate(leg = if_else(leg == "lean.left_leg", "L", "R"), 
+         sets = if_else(multiple == leg, "multiple", "single")) %>%
+  select(participant, time, sex, include, sets, leg, lean.mass) %>%
+  filter(include == "incl") %>%
+  mutate(time = factor(time, levels = c("pre", "post")), 
+         sets = factor(sets, levels = c("single", "multiple")), 
+         leg = paste0(participant, leg)) %>%
+  print()
+
+
+#tilpasse styrke-datasett
+benpress <- strengthvolume %>%
+  filter(exercise == "legpress",
+         include == "incl",
+         !is.na(load)) %>% 
+  mutate(time = factor(time, levels = c("pre", "post")),
+         sets = factor(sets, levels = c("single", "multiple"))) %>%
+  na.omit() %>%
+  print()
+```
+
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+#| output: false
+#| label: "t-test fettfri masse"
+
+
+#Tilpass fettfri masse-datasettet så det kan brukes i en t-test 
+ffmasse_tilpasset <- ffmasse %>%
+  pivot_wider(names_from = time, values_from = lean.mass) %>%
+  mutate(change = post - pre) %>%
+  select(participant, sex, sets, change) %>%
+  pivot_wider(names_from = sets, 
+              values_from = change) %>%
+  mutate(diff = multiple - single) %>%
+  print()
+
+#Paret t-test 
+ttffm <- with(ffmasse_tilpasset, t.test(multiple, single, paired = TRUE))
+
+summary(ttffm)
+
+#t-test tabell
+
+ttffm_table <- data.frame(
+  statistic = ttffm$statistic,
+  p_value = ttffm$p.value,
+  df = ttffm$parameter
+)
+print(ttffm_table)
+
+
+#Linjær model som viser inferens, gjennomsnittlig differanse og konfidensintervaller
+m1 <- lm(diff ~ 1, data = ffmasse_tilpasset)
+
+summary(m1)
+
+m1pval <- round(coef(summary(m1))[1, 4], 3)
+m1est <- round(coef(summary(m1))[1, 1], 1)
+m1ciu <- round(confint(m1)[1,2], 1)
+m1cil <- round(confint(m1)[1,1], 1)
+
+m1results <- paste0(m1est, 
+                    ", 95% CI: [",
+                    m1cil, 
+                    ", ",
+                    m1ciu, 
+                    "], p = ",
+                    m1pval
+                    )
+```
+
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+#| output: false
+#| label: "t-test benpress"
+
+
+#Tilpasse beinpress-datasettet så det kan brukes i en t-test
+benpress_tilpasset <- benpress %>%
+  pivot_wider(names_from = time, values_from = load) %>%
+  mutate(change = post - pre) %>%
+  select(participant, sex, sets, change) %>%
+  pivot_wider(names_from = sets, 
+              values_from = change) %>%
+  mutate(diff = multiple - single) %>%
+  drop_na() %>%
+  print()
+
+#Paret t-test 
+ttbenpress <- with(benpress_tilpasset, t.test(multiple, single, paired = TRUE))
+
+summary(ttbenpress)
+
+#t-test tabell
+
+ttbenpress_table <- data.frame(
+  statistic = ttbenpress$statistic,
+  p_value = ttbenpress$p.value,
+  df = ttbenpress$parameter
+)
+
+print(ttbenpress_table)
+
+
+
+#Linjær model som viser inferens, gjennomsnittlig differanse og konfidensintervaller
+m2 <- lm(diff ~ 1, data = benpress_tilpasset)
+
+summary(m2)
+
+m2pval <- round(coef(summary(m2))[1, 4], 3)
+m2est <- round(coef(summary(m2))[1, 1], 1)
+m2ciu <- round(confint(m2)[1,2], 1)
+m2cil <- round(confint(m2)[1,1], 1)
+
+m2results <- paste0(m2est, 
+                    ", 95% CI: [",
+                    m2cil, 
+                    ", ",
+                    m2ciu, 
+                    "], p = ",
+                    m2pval
+                    )
+
+Beinet som trente tre sett hadde en større økning i fettfri masse enn beinet som trente ett sett. Forskjellen mellom gruppene oppgitt i gram var r m1results. @fig-1 viser hvor mange gram deltakerne økte i fettfri masse fra pre- til posttest. I 1RM benpress var det en gjennomsnittlig differanse oppgitt i kilo på r m2results. @fig-2 viser hvor mange kilo deltakerne økte i 1RM benpress fra pre- til posttest.
+```
+
+
+```{r}
+#| label: "fig-1"
+#| fig-cap: "Gjennomsnittlig endring i fettfri masse mellom pre- og posttest"
+#| warning: false
+#| message: false
+#| echo: false
+
+dxadata %>%
+  select(participant:include, lean.left_leg, lean.right_leg) %>%
+  pivot_longer(names_to = "leg", 
+               values_to = "lean.mass.legs", 
+               cols = lean.left_leg:lean.right_leg) %>%
+  mutate(leg = if_else(leg == "lean.left_leg", "L", "R"), 
+         sets = if_else(multiple == leg, "multiple", "single")) %>%
+  select(participant, time, sex, include, sets, leg, lean.mass.legs) %>%
+  group_by(time, sets) %>%
+  summarise(mean = mean(lean.mass.legs)) %>%
+  mutate(time = factor(time, levels = c("pre", "post"))) %>%
+  ggplot(aes(time, mean, color = sets,
+             group = sets)) + 
+  geom_line() + 
+  geom_point() +
+  labs(x = "Testtidspunkt",
+       y = "Fettfri masse (gram)",
+       color = "Antall sett")
+```
+
+
+```{r}
+#| label: "fig-2"
+#| fig-cap: "Gjennomsnittlig endring i benpress 1RM mellom pre- og posttest"
+#| warning: false
+#| message: false
+#| echo: false
+
+strengthvolume %>%
+  select(participant, include, time, sets, leg, exercise, load) %>%
+  filter(!is.na(time), exercise == "legpress") %>% 
+  group_by(time, sets) %>% 
+  summarise(gj.load = mean(load, na.rm = TRUE)) %>% 
+  filter(time %in% c("pre", "post")) %>% 
+  mutate(time = factor(time, levels = c("pre", "post", na.rm = TRUE))) %>% 
+  ggplot(aes(time, gj.load, color = sets,
+             group = sets)) + 
+  geom_line() + 
+  geom_point() +
+  labs(x = "Testtidspunkt", 
+       y = "Belastning (kg)",
+       color = "Antall sett")
+```
+
+
+## Diskusjon
+
+Studien viste en tydelig forskjell i økningen av fettfri masse og 1RM benpress mellom gruppene som trente ett sett og tre sett per øvelse. Gruppens større fremgang med tre sett støtter teorien om et dose-responsforhold, der et høyere treningsvolum fører til bedre treningsadaptasjoner, som også er påvist av Schoenfeld et al. (2017).
+
+Det er likevel verdt å merke seg at deltakerne opplevde betydelig fremgang i både styrke og fettfri masse i begge ben, uavhengig av treningsvolum. Treningsprotokollen inkluderte to øvelser som belaster forsiden av låret, med en frekvens på 2-3 økter per uke. Dette resulterte i at det ukentlige volumet for beinet som trente ett sett per øvelse lå på 4-6 sett totalt. I tråd med dette fant Androulakis-Korakakis et al. (2020) at selv ett enkelt sett med 6-12 repetisjoner, utført med høy innsats 2-3 ganger per uke, kan føre til signifikante, men suboptimale, styrkeøkninger hos godt trente individer. Disse funnene antyder at et lavt volum kan gi effektive resultater, men et moderat volum gir mer optimale tilpasninger. For personer med begrenset tid til styrketrening kan dette være nyttig informasjon, da det viser at selv minimal innsats kan gi helsemessige og fysiske fordeler, selv om økt volum gir bedre resultater.
+
+
 
 
 
@@ -39,6 +308,11 @@ https://pubmed.ncbi.nlm.nih.gov/23914932/
 
 https://pubmed.ncbi.nlm.nih.gov/33497853/
 
+https://pubmed.ncbi.nlm.nih.gov/34193353/
+
+https://pubmed.ncbi.nlm.nih.gov/34193353/
+
+
 Mitchell, C. J., Churchward-Venne, T. A., West, D. W., Burd, N. A., Breen, L., Baker, S. K., & Phillips, S. M. (2012). Resistance exercise load does not determine training-mediated hypertrophic gains in young men. Journal of applied physiology (Bethesda, Md. : 1985), 113(1), 71–77. https://doi.org/10.1152/japplphysiol.00307.2012
 
 Raastad, T., Paulsen, G., Refsnes, P. E., Rønnestad, B. R.& Wisnes, A. R. (2010). Styrketrening- i teori og praksis. Gyldendal Norsk forlag AS
@@ -46,4 +320,3 @@ Raastad, T., Paulsen, G., Refsnes, P. E., Rønnestad, B. R.& Wisnes, A. R. (2010
 Hughes, D. C., Ellefsen, S., & Baar, K. (2018). Adaptations to Endurance and Strength Training. Cold Spring Harbor perspectives in medicine, 8(6), a029769. https://doi.org/10.1101/cshperspect.a029769 
 
 Choi, J., Lee, M., Lee, J. K., Kang, D., & Choi, J. Y. (2017). Correlates associated with participation in physical activity among adults: a systematic review of reviews and update. BMC public health, 17(1), 356. https://doi.org/10.1186/s12889-017-4255-2
-

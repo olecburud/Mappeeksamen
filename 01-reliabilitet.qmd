@@ -3,18 +3,17 @@ output: html_document
 editor_options: 
   chunk_output_type: console
 ---
-
-# Assignment 1: Reliability and tools for reproducible data science {#assignment1}
+# Assignment 1: Reliability and tools for reproducible data science
 
 # Introduksjon
 
 Det ble gjennomført fire testdager 28.08.2024, 29.08.2024, 9.09.2024 og 11.09.2024 for å teste VO2maks. Formålet med disse testene var å øve på å kunne gjennomføre fysiologiske tester med høy reliabilitet. Reliabilitet refererer til graden av konsistens eller pålitelighet i målinger evnen til å kunne reprodusere (Hopkins,2001), et eksempel på dette er ved fysiologisk testing som repeteres i forskningsprosjekter, der bedre reliabilitet vil indikere hvor god presisjonen er og måling av endring over tid (Hopkins,2001). Det er mange begreper som er relevante for å kunne si noe om reliabilitet, men standardavviket er et av disse. Standardavviket sier noe om hvor langt unna verdiens gjennomsnittlige avstand er fra gjennomsnittet [@Spiegelhalter]
-
+  
 Kroppens maksimale oksygenopptak (VO2maks ) sier noe om kroppens maksimale evne til å ta opp og omsette oksygen [@Bassett] . VO2maks kan beskrives ved hjelp av Ficks likning: VO2maks=MVmaks x a-vO2differansemaks. VO2maks måles ved at man måler hvor mye oksygen kroppen klarer å omsette pr minutt [@Bassett]. Det finnes ulike måter og fremstille VO2maks på de to av disse er absolutt VO2maks beskrevet som (ml/min) eller relative tall relatert til kroppsvekt (ml/kg/min).
 
 Vi har i resultat delen valgt å fremstille effekt maks (Wmaks) som er et mål på snitteffekt det siste minuttet av VO2maks testen basert på kroppsvekt. Wmaks/kg sett opp i sammenheng med den relative VO2maks (ml/kg/min). Forskning viser at at høy VO₂maks sammen med god mekanisk effektivitet og høy laktatterskel gir bedre utholdenhetsprestasjoner, noe som reflekteres i høyere Wmaks/kg [@Joyner].
 
-# Metode
+## Metode
 
 VO2maks testen ble gjennomført på en ergometersykkel med bukkestyre (Lode Excalibur Sport; Lode B.V., Groningen, Nederland). Kranken kalibreres på Lode sykkelen før hver teststart, og sykkel stilles inn etter utøver sitt ønske ved første test og stilles inn til den samme sittestillingen påfølgende tester. For å måle det maksimale oksygenopptaket ble det brukt Vyntus (Jaeger Vyntus CPX, Hoechberg, Tyskland). Gassanalysator kalibreres til \< 2,0% differanse og luftvolum kalibreres til \< 0,2% differanse. Zeroing gjøres også alltid før test starter. Syklistene veies med de klærne de skal sykle med, og 0,3kg trekkes fra. For å kunne sikre god relabilitet ble det tydeliggjort at man skulle replisere det siste måltidet før test, ha det samme koffeininntaket, avstå fra alkohol og tobakk de siste 72 timene før test og prøve å få tilnærmet lik søvn, samt trene det samme dagen før test. Da dette er faktorer som kan spille inn på prestasjon og metabolismen (Tanner & Gore, 2013) og dermed påvirke relabiliteten. Hvorvidt dette er fulgt er noe usikkert da dette ikke er fulgt opp videre annet enn at det ble informert om før første testdag.
 
@@ -31,91 +30,115 @@ library(ggplot2)
 library(dplyr)
 library(magrittr)
 library(gt)
+library(ggtext)
 df <- read_xlsx("data/o2-test.xlsx")
 
 ```
 
-# Resultat
+### Resultat
 
-## Gjennomsnitt og standardavvik
+Etter at testene er gjennomført kan vi se nærmere på hver forsøkperson sine data. Dette gir muligheten til å se på hver enkelt forsøksperson om man finner dette interessant (Table 1.1). 
+Verdiene man kan se i tabellen, er verdier som er plottet etter endt $\dot{V}O_{2maks}$-test. 
 
 ```{r}
-#| tbl-cap: "Tabellen viser hver deltakers gjennomsnitt og standardavvik i ()"
 #| code-fold: true
 #| message: false
 #| warning: false
 
+library(dplyr)
+library(tidyr)
+library(knitr)
+library(kableExtra)
 
+# Generer en tabell med nødvendige beregninger
+df.tbl <- df %>%
+  select(id, timepoint, weight, w.max:borg.max) %>%
+  select(-hr.max, -la.max, -bf.max, -vco2.max, -rer.max, -ve.max) %>%
+  mutate(rel.vo2max = vo2.max / weight,
+         rel.wmax = w.max / weight) %>%
+  pivot_longer(names_to = "Parameter", values_to = "verdier", cols = w.max:rel.wmax) %>%
+  group_by(id, Parameter) %>%
+  summarise(m = mean(verdier, na.rm = TRUE),
+            s = sd(verdier, na.rm = TRUE)) %>%
+  mutate(m_s = paste0(signif(m, 3), " (", signif(s, 2), ")")) %>%
+  ungroup() %>%
+  select(-m, -s) %>%
+  pivot_wider(names_from = "id", values_from = "m_s")
 
-#Last inn datasettet
-df.tbl <- df |> 
-#Velg hvilke variabler som skal med videre  
-  select(id, timepoint, weight, w.max:borg.max) |> 
-#Fjern verdiene som har characters  
-  select(-hr.max) |> 
-  select(-la.max) |> 
-  select(-bf.max) |> 
-  select(-vco2.max) |> 
-  select(-rer.max) |> 
-  select(-ve.max) |> 
-#Lag nye verdier, relativ vo2maks og wattmaks/kg  
-  mutate(rel.vo2max = vo2.max / weight) |> 
-  mutate(rel.wmax = w.max / weight) |> 
-#Sliter fortsatt med å forklare pivot både longer og wider  
-  pivot_longer(names_to = "ID",
-               values_to = "verdier",
-               cols = w.max:rel.wmax) |> 
-#Grupper etter id og names  
-  group_by(id, ID) |> 
-#Summarise gjennomsnitt og standardavvik til verdiene
-  summarise(m = mean(verdier),
-            s = sd(verdier)) |> 
-   mutate(m_s = paste0(signif(m, 3), " (", signif(s, 2), ")")) %>% 
-    ungroup() |> 
-select(-m, -s) |> 
-  pivot_wider(names_from = "id",
-              values_from = "m_s") |> 
-  gt()
+# Endre radnavnene ved å bruke mutate() hvis radnavnene er i en kolonne
+df.tbl <- df.tbl %>%
+  mutate(Parameter = case_when(
+    Parameter == "rel.vo2max" ~ "VO$_{2max}$ (ml/kg/min)",
+    Parameter == "w.max" ~ "Watt$_{max}$",
+    Parameter == "borg.max" ~ "Borg$_{max}$",
+    Parameter == "vo2.max" ~ "VO$_{2max}$ (ml/min)",
+    Parameter == "rel.wmax" ~ "Watt/kg",
+    TRUE ~ Parameter  # Hvis verdien ikke matches, behold opprinnelig navn
+  ))
 
-
-df.tbl |> 
-   text_replace(
-    pattern = "^bf.max$",
-    replacement = md("Bf<small>(maks)</small>")) |> 
-    
-  text_replace(
-    pattern = "^borg.max$",
-    replacement = md("Borg<small>(maks)</small>")) |> 
-  
-  text_replace(
-    pattern = "^rel.vo2max$",
-    replacement = md("VO<sub>2maks</sub><br><small>(ml/kg/min)</br></small>")) |> 
-  
-  text_replace(
-    pattern = "^rel.wmax$",
-    replacement = md("Wattmaks/kg")) |> 
-  
-  text_replace(
-    pattern = "^vo2.max",
-    replacement = md("VO<sub>2maks</sub><br><small>(ml/min)</br></small>")) |> 
-  
-  
-  text_replace(
-    pattern = "w.max$",
-    replacement = ("Wattmaks")) |> 
-  tab_options(table.font.size = 10)
-  
-
-  
-  
-
-
-
-
+# Lag tabellen med kable og kableExtra, med escape = FALSE for å tillate LaTeX-syntaks
+df.tbl %>%
+  kable("latex",
+        booktabs = TRUE,
+        escape = FALSE) %>%
+  kable_styling(
+    font_size = 6,              # Redusert skriftstørrelse for å få mer plass
+    full_width = FALSE,
+    position = "center",
+    latex_options = "H"
+  ) %>%
+  column_spec(2:ncol(df.tbl), width = "0.5cm") %>%  # Juster kolonnebredden for alle kolonner unntatt første
+  row_spec(0, bold = TRUE)  |> 
+  # Gjør header-raden fet
+  add_footnote(label = "Table 1.1: Tabellen viser hver deltakers gjennomsnitt og standardavvik i () på verdier vi har undersøkt", notation = "none")
 
 
 
 ```
+
+
+
+```{r}
+#| code-fold: true
+#| eval: false
+
+
+library(dplyr)
+library(gt)
+
+df |> 
+  filter(timepoint == "t1") |> 
+  select(id, vo2.max, w.max, sex) |> 
+  group_by(sex) |> 
+  summarise(o2mean = mean(vo2.max, na.rm = TRUE),
+            wmean = mean(w.max, na.rm = TRUE),
+            o2sd = sd(vo2.max, na.rm = TRUE),
+            wsd = sd(w.max, na.rm = TRUE))
+
+
+
+  
+
+
+```
+
+
+
+```{r}
+#| code-fold: true
+o2meanK <- 3163
+o2meanM <- 4380
+o2sdK <- 484
+o2sdM <- 515
+wmeanK <- 257
+wmeanM <- 352
+wsdK <- 31.0
+wsdM <- 51.6
+```
+
+
+Etter å ha gjennomført VO~2maks~-testene ser vi at kvinnene på 1MAIDR har et gjennomsnittlig oksygenopptak på `r o2meanK` ± `r o2sdK`. Mennene har derimot et gjennomsnittlig oksygenopptak på `r o2meanM` ± `r o2sdM`.
+
 
 ```{r}
 #| code-fold: true
@@ -128,13 +151,12 @@ df.rel <- df |>
 
 ```
 
-## Reliabilitet
-
 
 
 ```{r}
 #| code-fold: true
 #| tbl-cap: "Reliability relativ vo2maks T1&T2"
+#| eval: false
 
 
 df.rel |> 
@@ -156,16 +178,20 @@ df.rel |>
             CV = TE/MEAN * 100) |> 
   gt() |> 
   fmt_number(decimals = 2)
-  cv_perct1_t2 <- 2.47
 
 
 ```
 
-Reliabiliteten mellom t1 og t2 er `r cv_perct1_t2`%.
+```{r}
+#| echo: false
+cv_perct1_t2 <- 2.47
+```
+
 
 ```{r}
 #| code-fold: true
 #| tbl-cap: "Reliability relativ vo2maks T3&T4"
+#| eval: false
 
 
 df.rel |> 
@@ -187,14 +213,21 @@ df.rel |>
             CV = TE/MEAN * 100) |> 
   gt() |> 
    fmt_number(decimals = 2)
-   cv_perct3_t4 <- 4.78
+ 
 
 
 ```
 
-Reliabiliteten mellom t3 og t4 er `r cv_perct3_t4`%.
+```{r}
+#| echo: false
+cv_perct3_t4 <- 4.78
+```
 
-## Korrelasjon mellom Vo2maks og Wattmaks per kg
+
+Reliabiliteten mellom t1 og t2 er `r cv_perct1_t2`%, mens reliabiliteten mellom t3 og t4 er `r cv_perct3_t4`%. 
+
+
+#### Korrelasjon mellom Vo2maks og Wattmaks per kg
 
 ```{r}
 #| code-fold: true
@@ -203,23 +236,37 @@ Reliabiliteten mellom t3 og t4 er `r cv_perct3_t4`%.
 #| fig-cap: "Figur 1: Hvert punkt = én observasjon"
 
 
+library(dplyr)
+library(ggplot2)
+library(latex2exp)
+
 df %>% 
+  filter(timepoint == "t1") %>% 
   mutate(rel.vo2max = vo2.max / weight) %>% 
   mutate(w.max.kg = w.max / weight) %>% 
   ggplot(aes(x = rel.vo2max,
-             y = w.max.kg,
-             color = id)) +
+             y = w.max,
+             color = as.factor(id))) +
   geom_point() +
-  labs(x = ("Relativ VO2maks"),
-       y = ("Wattmaks/kg"),
-       title = "Korrelasjon mellom Vo2maks og Wattmaks",
-       subtitle = "Verdier er delt på vekt")
-
+  labs(
+    x = TeX("Relativ $\\dot{V}O_{2maks}$"),
+    y = TeX("$\\Watt_{maks}$"),
+    title = TeX("Korrelasjon mellom $\\dot{V}O_{2maks}$ og $\\Watt_{maks}$"),
+    color = "Deltaker-ID"  # Dette gir navn til legenden
+  ) +
+  geom_smooth(method = "lm", se = FALSE, color = "black", linetype = "dashed") +
+  theme(
+    legend.position = "right",
+    legend.text = element_text(size = 6),
+    legend.key.size = unit(0.8, "lines")
+  )
 
 ```
 
-Jeg fikk dessverre ikke til å gjøre om på hver enkelt farge, for å lettere kunne skille ulike id´er fra hverandre.
+##### Diskusjon
+
+Basert på de observerte resultatene fra testing av $\dot{V}O_{2maks}$, kan det konkluderes med at metoden vi har anvendt har høy reliabilitet. Resultatene indikerer at vi måler det ønskede på en pålitelig måte, med minimal variasjon i måleutstyret mellom testene.
+
+Dette gir oss en trygghet i at vi med relativt stor sikkerhet kan evaluere effekten av et treningsprogram ved å gjennomføre gjentatte tester før og etter treningsperioder.
 
 
-
-# Referanser
