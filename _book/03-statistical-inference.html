@@ -237,36 +237,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = y ~ 1, data = samp1)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--6.5322 -1.2523 -0.0883  1.3540  4.8692 
-
-Coefficients:
-            Estimate Std. Error t value Pr(&gt;|t|)
-(Intercept)    1.840      1.251    1.47    0.185
-
-Residual standard error: 3.539 on 7 degrees of freedom</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.839727</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>(Intercept) 
-   1.839727 </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 3.539191</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.251293</code></pre>
-</div>
-</div>
 <section id="oppgave-1" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="oppgave-1"><span class="header-section-number">3.1</span> Oppgave 1:</h2>
 <p>Ved bruk av regresjonsmodellen lm1 og lm2 skal jeg i denne oppgaven definere begrepene estimat, SE (standardfeil), T-verdi og P-verdi ut ifra det vi vet fra prosessen med og gjennomføre en studie med et tilfeldig utvalg.</p>
@@ -285,88 +255,197 @@ Residual standard error: 3.539 on 7 degrees of freedom</code></pre>
 </section>
 <section id="oppgave-4" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="oppgave-4"><span class="header-section-number">3.4</span> Oppgave 4</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data frames to store the model estimates</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>results_8 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">estimate =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>), </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">se =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>), </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">pval =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>), </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">n =</span> <span class="dv">8</span>)  </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>results_40 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">estimate =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>), </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">se =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>), </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">pval =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>), </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">n =</span> <span class="dv">40</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># A for loop used to sample 1000 studies, each iteration (i) will draw a new sample</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># from the population. </span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) {</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Draw a sample </span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  samp1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">y =</span> <span class="fu">sample</span>(population, <span class="dv">8</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  samp2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">y =</span> <span class="fu">sample</span>(population, <span class="dv">40</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Model the data</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> samp1)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  m2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> samp2)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Extract values from the models</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  results_8[i, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(m1))[<span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  results_8[i, <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(m1))[<span class="dv">1</span>, <span class="dv">2</span>]</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  results_8[i, <span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(m1))[<span class="dv">1</span>, <span class="dv">4</span>]</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  results_40[i, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(m2))[<span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  results_40[i, <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(m2))[<span class="dv">1</span>, <span class="dv">2</span>]</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  results_40[i, <span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(m2))[<span class="dv">1</span>, <span class="dv">4</span>]</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the results in a combined data frame</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(results_8, results_40)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 <p>Standardfeilen (SE) er et estimat på hvor mye feilene skal variere fra prøve til prøve, standardavviket er det faktiske variasjonen. Jo flere prøvepersonen det er, jo likere vil SE og standardavviket være, fordi SE forutsier dette.</p>
 </section>
 <section id="oppgave-5" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="oppgave-5"><span class="header-section-number">3.5</span> Oppgave 5</h2>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(results[results<span class="sc">$</span>n <span class="sc">==</span> <span class="dv">8</span>, ], <span class="fu">aes</span>(<span class="at">x =</span> pval)) <span class="sc">+</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.05</span>, <span class="at">fill =</span> <span class="st">"red"</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"P-verdier fordeling til samplesize 8"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"P-verdier"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"frekvens"</span>) <span class="sc">+</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="03-statistical-inference_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="03-statistical-inference_files/figure-html/P-verdi histogram SS8-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 2
-      n sig_results
-  &lt;dbl&gt;       &lt;dbl&gt;
-1     8       0.227
-2    40       0.865</code></pre>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-     One-sample t test power calculation 
-
-              n = 40
-              d = 0.5
-      sig.level = 0.05
-          power = 0.8693981
-    alternative = two.sided</code></pre>
+<p>Histogrammet for modellen med utvalgsstørrelse på 8 viser en tydelig overvekt av høye p-verdier. Dette reflekterer den lave statistiske styrken som oppstår når man utfører studier med en så liten utvalgsstørrelse.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(results[results<span class="sc">$</span>n <span class="sc">==</span> <span class="dv">40</span>, ], <span class="fu">aes</span>(<span class="at">x =</span> pval)) <span class="sc">+</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.05</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"P-verdier fordeling til samplesize 40"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"P-verdier"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"frekvens"</span>) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-statistical-inference_files/figure-html/P-verdi histogram SS40-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
-<p>De to histogrammene viser hvordan p-verdiene varierer mer for hver prøvestørrelse. Ut fra dette kan vi tolke at p-verdiene er mer spredt jo mindre prøvestørrelsen (N) er. Dette kan indikere til en svakere statestistisk styrke, og det er større sjangse for og oppdage en falsk effekt. Ved en større prøvestørrelse som vi ser i det andre histogrammet viser det til fler p-verdier som ligger mer mot signifikant nivået, og det er større sansynlighet for at det er en sann effekt, det vil si en sterkere statestistisk styrke (power).</p>
+</div>
+<p>I histogrammet for modellen med utvalgsstørrelse på 40 ser vi at flere observasjoner er konsentrert rundt lavere p-verdier. Dette skyldes at en større utvalgsstørrelse gir høyere statistisk styrke.</p>
 </section>
 <section id="oppgave-6" class="level2" data-number="3.6">
 <h2 data-number="3.6" class="anchored" data-anchor-id="oppgave-6"><span class="header-section-number">3.6</span> Oppgave 6</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Count the proportion of tests below a certain p-value for each </span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(pval <span class="sc">&lt;</span> <span class="fl">0.05</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(n) <span class="sc">%&gt;%</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">sig_results =</span> <span class="fu">n</span>()<span class="sc">/</span><span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 2
-      n sig_results
-  &lt;dbl&gt;       &lt;dbl&gt;
-1     8       0.227
-2    40       0.865</code></pre>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>significant_8 <span class="ot">&lt;-</span> <span class="fu">sum</span>(results<span class="sc">$</span>pval[results<span class="sc">$</span>n <span class="sc">==</span> <span class="dv">8</span>] <span class="sc">&lt;</span> alpha)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>significant_40 <span class="ot">&lt;-</span> <span class="fu">sum</span>(results<span class="sc">$</span>pval[results<span class="sc">$</span>n <span class="sc">==</span> <span class="dv">40</span>] <span class="sc">&lt;</span> alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using the pwr package</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="dv">40</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">d =</span> <span class="fl">1.5</span><span class="sc">/</span><span class="dv">3</span>, <span class="at">type =</span> <span class="st">"one.sample"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-     One-sample t test power calculation 
-
-              n = 40
-              d = 0.5
-      sig.level = 0.05
-          power = 0.8693981
-    alternative = two.sided</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>significant_8 <span class="ot">&lt;-</span> <span class="fu">sum</span>(results_8<span class="sc">$</span>pval <span class="sc">&lt;</span> <span class="fl">0.05</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>significant_40 <span class="ot">&lt;-</span> <span class="fu">sum</span>(results_40<span class="sc">$</span>pval <span class="sc">&lt;</span> <span class="fl">0.05</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>For studiene med utvalgsstørrelse på 8 er det 227 som viser statistisk signifikans, mens for studiene med utvalgsstørrelse på 40 er antallet hele 865. Dette illustrerer tydelig hvor stor betydning utvalgsstørrelsen har for resultatene i analysene. I dette tilfellet er terskelen for signifikans (p-verdi) satt til 0.05</p>
 </section>
 <section id="oppgave-7" class="level2" data-number="3.7">
 <h2 data-number="3.7" class="anchored" data-anchor-id="oppgave-7"><span class="header-section-number">3.7</span> Oppgave 7</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>effect_size <span class="ot">&lt;-</span> <span class="fl">1.5</span> <span class="sc">/</span> <span class="dv">3</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>power_8 <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="dv">8</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">d =</span> effect_size,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">sig.level =</span> alpha,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">type =</span> <span class="st">"one.sample"</span>)<span class="sc">$</span>power</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>rounded_power_8 <span class="ot">&lt;-</span> <span class="fu">round</span>(power_8, <span class="dv">3</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>power_40 <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="dv">40</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                       <span class="at">d =</span> effect_size,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                       <span class="at">sig.level =</span> alpha,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                       <span class="at">type =</span> <span class="st">"one.sample"</span>)<span class="sc">$</span>power</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>rounded_power_40 <span class="ot">&lt;-</span> <span class="fu">round</span>(power_40, <span class="dv">3</span>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>rounded_power_40_perc <span class="ot">&lt;-</span> rounded_power_40 <span class="sc">*</span> <span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 <p>Konklusjonen på disse studiene viser til at jo større utvalg det er, jo høyere statestisisk styrke. (power). Med høyere statestistisk styrke jo mer sansynlig er det at vi har funnet en sanhet, og ikke falsk sannhet som i tilfellet hvis det er lav statestistisk styrke, som i tilfellet med n=8 (færre forsøkspersoner)</p>
 </section>
 <section id="oppgave-8" class="level2" data-number="3.8">
 <h2 data-number="3.8" class="anchored" data-anchor-id="oppgave-8"><span class="header-section-number">3.8</span> Oppgave 8</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>population <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">3</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data frames to store the model estimates</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>results_8 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">estimate =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>), </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">se =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>), </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">pval =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>), </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">n =</span> <span class="dv">8</span>)  </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>results_40 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">estimate =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>), </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                      <span class="at">se =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>), </span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                      <span class="at">pval =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">1000</span>), </span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>                      <span class="at">n =</span> <span class="dv">40</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co"># A for loop used to sample 1000 studies, each iteration (i) will draw a new sample</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co"># from the population. </span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) {</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Draw a sample </span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  samp1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">y =</span> <span class="fu">sample</span>(population, <span class="dv">8</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  samp2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">y =</span> <span class="fu">sample</span>(population, <span class="dv">40</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Model the data</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> samp1)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  m2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> samp2)</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Extract values from the models</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>  results_8[i, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(m1))[<span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>  results_8[i, <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(m1))[<span class="dv">1</span>, <span class="dv">2</span>]</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>  results_8[i, <span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(m1))[<span class="dv">1</span>, <span class="dv">4</span>]</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>  results_40[i, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(m2))[<span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>  results_40[i, <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(m2))[<span class="dv">1</span>, <span class="dv">2</span>]</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>  results_40[i, <span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(m2))[<span class="dv">1</span>, <span class="dv">4</span>]</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the results in a combined data frame</span></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>results_null <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(results_8, results_40)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>false_positive_8 <span class="ot">&lt;-</span> <span class="fu">sum</span>(results_8<span class="sc">$</span>pval <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>false_positive_40 <span class="ot">&lt;-</span> <span class="fu">sum</span>(results_40<span class="sc">$</span>pval <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>false_positive_8_alpha0<span class="fl">.025</span> <span class="ot">&lt;-</span> <span class="fu">sum</span>(results_8<span class="sc">$</span>pval <span class="sc">&lt;</span> <span class="fl">0.025</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>false_positive_40_alpha0<span class="fl">.025</span> <span class="ot">&lt;-</span> <span class="fu">sum</span>(results_40<span class="sc">$</span>pval <span class="sc">&lt;</span> <span class="fl">0.025</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 <p>Ved å gjennomføre 1000 gjentatte studier med et signifikansnivå satt til 0,05, kan vi forvente rundt 50 falske positive resultater. I mine beregninger fant jeg at det var r <code>false_positive_8</code> falske positive for studiene med en utvalgsstørrelse på 8, og r <code>false_positive_40</code> for studiene med en utvalgsstørrelse på 40. Hvis signifikansnivået senkes til 0,025, reduseres antall falske positive noe. Da vil studiene med en utvalgsstørrelse på 8 gi r <code>false_positive_8_alpha0.025</code> falske positive, mens studiene med 40 deltakere gir r <code>false_positive_40_alpha0.025</code> falske positive.</p>
 
 

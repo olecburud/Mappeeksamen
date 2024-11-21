@@ -4,7 +4,7 @@ project:
 book:
   title: "Mappeeksamen IDR4000"
   author: "Ole Conrad Burud"
-  date: "2024-11-22"
+  date: "2024-11-21"
   chapters:
     - index.qmd
     - 01-reliabilitet.qmd
@@ -19,8 +19,4 @@ book:
 bibliography: resources/bib-final.bib
 
 format: html
-
-
-
-
-
+ 
