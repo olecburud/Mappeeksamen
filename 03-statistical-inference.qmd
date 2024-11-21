@@ -4,13 +4,13 @@ editor_options:
   chunk_output_type: console
 ---
 
-# Assignment 3: Drawing inference from statistical models, and statistical power 
-
+# Assignment 3: Drawing inference from statistical models, and statistical power
 
 ```{r}
-#| code-fold: true
-#| warning: false
 #| message: false
+#| warning: false
+#| echo: false
+
 library(tidyverse)
 
 set.seed(1)
@@ -31,39 +31,40 @@ mean(samp1$y)
 coef(m1)
 sd(samp1$y)
 sd(samp1$y) /sqrt(8)
+
 ```
+
+
 
 ## Oppgave 1:
 
-Ved bruk av regresjonsmodellen lm1 og lm2 skal jeg i denne oppgaven definere begrepene estimat, SE (standardfeil), T-verdi og P-verdi ut ifra det vi vet fra prosessen med og gjennomføre en studie med et tilfeldig utvalg. 
+Ved bruk av regresjonsmodellen lm1 og lm2 skal jeg i denne oppgaven definere begrepene estimat, SE (standardfeil), T-verdi og P-verdi ut ifra det vi vet fra prosessen med og gjennomføre en studie med et tilfeldig utvalg.
 
+Estimat: Representerer gjennomsnittet av det vi har målt i utvalget. Så i vårt tilfelle viser estimatet gjennomsnitt på den ene variabelen (y) i de to forskjellige utvalgene.
 
-Estimat: Representerer gjennomsnittet av det vi har målt i utvalget. Så i vårt tilfelle viser estimatet gjennomsnitt på den ene variabelen (y) i de to forskjellige utvalgene. 
-
-SE (standardfeil): SE defineres som hvor mye vi kan forvente at gjennomsnittet kan variere hvis du hadde valgt en annen tilfeldig gruppe fra populasjonen. I tillet vi har er det ett SE på 3,539 som vil si hvis vi gjennomfører en ny studie med ett annet utvalg, vil vi kunne forvente en endring i gjennomsnitttet på 3,539. Jo lavere SE vi har, jo mer sikker er vi på at utvalget representer populasjonen bedre. 
+SE (standardfeil): SE defineres som hvor mye vi kan forvente at gjennomsnittet kan variere hvis du hadde valgt en annen tilfeldig gruppe fra populasjonen. I tillet vi har er det ett SE på 3,539 som vil si hvis vi gjennomfører en ny studie med ett annet utvalg, vil vi kunne forvente en endring i gjennomsnitttet på 3,539. Jo lavere SE vi har, jo mer sikker er vi på at utvalget representer populasjonen bedre.
 
 T-verdi: En t-verdi er et statistisk mål som anvendes i t-tester for å vurdere om forskjellen mellom to grupper, eller mellom et prøvegennomsnitt og en kjent verdi, er signifikant. Den uttrykker hvor stor den observerte forskjellen er i forhold til den forventede variasjonen i dataene, representert ved standardfeilen. En høy t-verdi indikerer at forskjellen er betydelig i forhold til variasjonen, noe som kan tyde på en reell effekt. T-verdien i m1: 1,47, T-verdi m2: 3,276
 
-P-verdi: En p-verdi er et statistisk mål som uttrykker sannsynligheten for å få et resultat som er minst like ekstremt som det observerte, gitt at nullhypotesen er sann. Den brukes til å vurdere om en observert effekt eller forskjell kan forklares med tilfeldigheter. En lav p-verdi (for eksempel mindre enn 0,05) antyder at resultatet er lite sannsynlig å ha oppstått ved tilfeldigheter alene, og nullhypotesen kan derfor avvises. P-verdien gir altså en indikasjon på hvor sterk evidensen er mot nullhypotesen, men sier ikke noe om effektenes størrelse eller praktiske betydning. 
-
+P-verdi: En p-verdi er et statistisk mål som uttrykker sannsynligheten for å få et resultat som er minst like ekstremt som det observerte, gitt at nullhypotesen er sann. Den brukes til å vurdere om en observert effekt eller forskjell kan forklares med tilfeldigheter. En lav p-verdi (for eksempel mindre enn 0,05) antyder at resultatet er lite sannsynlig å ha oppstått ved tilfeldigheter alene, og nullhypotesen kan derfor avvises. P-verdien gir altså en indikasjon på hvor sterk evidensen er mot nullhypotesen, men sier ikke noe om effektenes størrelse eller praktiske betydning.
 
 ## Oppgave 2
 
-Forskjellene i de to studiene (m1 og m2) er prøvestørrelsen. M2 har n=8 mens m2 har n=40. Studien med større prøvestørrelse vil gi mer pålitelige svar, da den statestistiske styrken er høyere, og sansynligheten for at det faktisk er funnet en sann effekt er større. Dette fordi med færre prøvestørrelser er man mer sårbar for tilfeldige svar, og dermed usanne sanheter. 
-
+Forskjellene i de to studiene (m1 og m2) er prøvestørrelsen. M2 har n=8 mens m2 har n=40. Studien med større prøvestørrelse vil gi mer pålitelige svar, da den statestistiske styrken er høyere, og sansynligheten for at det faktisk er funnet en sann effekt er større. Dette fordi med færre prøvestørrelser er man mer sårbar for tilfeldige svar, og dermed usanne sanheter.
 
 ## Oppgave 3
-Vi bruker skyggelagte områder i de ekstreme tilfellene ved nedre og øvre del for og utelukke uteliggere, det vil si de ekstreme tilfellene som ikke er representative for gjennomsnittet i prøvegruppen. 
 
+Vi bruker skyggelagte områder i de ekstreme tilfellene ved nedre og øvre del for og utelukke uteliggere, det vil si de ekstreme tilfellene som ikke er representative for gjennomsnittet i prøvegruppen.
 
 ## Oppgave 4
+
 ```{r}
 #| message: false
 #| warning: false
 #| code-fold: true
+#| echo: false
 
 library(tidyverse)
-
 
 # Create data frames to store the model estimates
 results_8 <- data.frame(estimate = rep(NA, 1000), 
@@ -106,20 +107,32 @@ for(i in 1:1000) {
 
 results <- bind_rows(results_8, results_40)
 
+
+```
+
+```{r}
+#| message: false
+#| warning: false
+#| code-fold: true
+#| echo: false
+
 sd_est_8 <- sd (results_8$estimate)
 mean_se_8 <- mean(results_8$se)
 
 sd_est_40 <- sd (results_40$estimate)
 mean_se_40 <- mean(results_40$se)
+
 ```
 
-Standardfeilen (SE) er et estimat på hvor mye feilene skal variere fra prøve til prøve, standardavviket er det faktiske variasjonen. Jo flere prøvepersonen det er, jo likere vil SE og standardavviket være, fordi SE forutsier dette.  
-
-
-
+Standardfeilen (SE) er et estimat på hvor mye feilene skal variere fra prøve til prøve, standardavviket er det faktiske variasjonen. Jo flere prøvepersonen det er, jo likere vil SE og standardavviket være, fordi SE forutsier dette.
 
 ## Oppgave 5
+
 ```{r}
+#| message: false
+#| warning: false
+#| code-fold: true
+#| echo: false
 # Example code for copy and paste
 
 # A two facets histogram can be created with ggplot2
@@ -141,15 +154,18 @@ library(pwr)
 pwr.t.test(n = 40, sig.level = 0.05, d = 1.5/3, type = "one.sample")
 ```
 
-De to histogrammene viser hvordan p-verdiene varierer mer for hver prøvestørrelse. Ut fra dette kan vi tolke at p-verdiene er mer spredt jo mindre prøvestørrelsen (N) er. Dette kan indikere til en svakere statestistisk styrke, og det er større sjangse for og oppdage en falsk effekt. Ved en større prøvestørrelse som vi ser i det andre histogrammet viser det til fler p-verdier som ligger mer mot signifikant nivået, og det er større sansynlighet for at det er en sann effekt, det vil si en sterkere statestistisk styrke (power). 
 
 
+De to histogrammene viser hvordan p-verdiene varierer mer for hver prøvestørrelse. Ut fra dette kan vi tolke at p-verdiene er mer spredt jo mindre prøvestørrelsen (N) er. Dette kan indikere til en svakere statestistisk styrke, og det er større sjangse for og oppdage en falsk effekt. Ved en større prøvestørrelse som vi ser i det andre histogrammet viser det til fler p-verdier som ligger mer mot signifikant nivået, og det er større sansynlighet for at det er en sann effekt, det vil si en sterkere statestistisk styrke (power).
 
 ## Oppgave 6
+
 ```{r}
+
 #| message: false
 #| warning: false
 #| code-fold: true
+#| echo: false
 
 library(tidyverse)
 library(pwr)
@@ -170,20 +186,17 @@ pwr.t.test(n = 40, sig.level = 0.05, d = 1.5/3, type = "one.sample")
 
 significant_8 <- sum(results_8$pval < 0.05, na.rm = TRUE)
 
-significant_40 <- sum(results_40$pval < 0.05, na.rm = TRUE)
+significant_40 <- sum(results_40$pval < 0.05, na.rm = TRUE) 
 ```
 
 
-
-
-
 ## Oppgave 7
+
 ```{r}
 #| message: false
 #| warning: false
 #| code-fold: true
-
-library(tidyverse)
+#| echo: false
 
 
 library(pwr)
@@ -196,23 +209,19 @@ n_40 <- 40
 power_40 <- pwr.t.test(d = effect_size, n = n_40, sig.level = 0.05, type = "one.sample", alternative = "two.sided")$power
 ```
 
-Konklusjonen på disse studiene viser til at jo større utvalg det er, jo høyere statestisisk styrke. (power). Med høyere statestistisk styrke jo mer sansynlig er det at vi har funnet en sanhet, og ikke falsk sannhet som i tilfellet hvis det er lav statestistisk styrke, som i tilfellet med n=8 (færre forsøkspersoner) 
-
-
-
-
+Konklusjonen på disse studiene viser til at jo større utvalg det er, jo høyere statestisisk styrke. (power). Med høyere statestistisk styrke jo mer sansynlig er det at vi har funnet en sanhet, og ikke falsk sannhet som i tilfellet hvis det er lav statestistisk styrke, som i tilfellet med n=8 (færre forsøkspersoner)
 
 ## Oppgave 8
 
 ```{r}
+#| code-fold: true
+#| label: "Oppgave 8"
 #| message: false
 #| warning: false
-#| code-fold: true
-
-library(tidyverse)
+#| echo: false
 
 
-
+set.seed(1)
 population <- rnorm(1000000, mean = 0, sd = 3)
 
 
@@ -220,7 +229,7 @@ population <- rnorm(1000000, mean = 0, sd = 3)
 results_8 <- data.frame(estimate = rep(NA, 1000), 
                       se = rep(NA, 1000), 
                       pval = rep(NA, 1000), 
-                      n = 8 
+                      n = 8)  
 
 results_40 <- data.frame(estimate = rep(NA, 1000), 
                       se = rep(NA, 1000), 
@@ -256,74 +265,25 @@ for(i in 1:1000) {
 # Save the results in a combined data frame
 
 results_null <- bind_rows(results_8, results_40)
+
+
 ```
-
-
 
 ```{r}
+#| code-fold: true
+#| label: "Falske positive"
 #| message: false
 #| warning: false
-#| code-fold: true
+#| echo: false
 
-library(tidyverse)
 
-# Generer en populasjon
-population <- rnorm(1000000, mean = 0, sd = 3)
+false_positive_8 <- sum(results_8$pval < 0.05)
+false_positive_40 <- sum(results_40$pval < 0.05)
 
-# Opprett dataframes for å lagre modellestimatene
-results_8 <- data.frame(estimate = rep(NA, 1000), 
-                         se = rep(NA, 1000), 
-                         pval = rep(NA, 1000), 
-                         n = 8)  # Korrigert: Lagt til avsluttende parentes her
 
-results_40 <- data.frame(estimate = rep(NA, 1000), 
-                          se = rep(NA, 1000), 
-                          pval = rep(NA, 1000), 
-                          n = 40)
-
-# En for-løkke som brukes til å trekke 1000 studier
-for(i in 1:1000) {
-  
-  # Trekk en prøve 
-  samp1 <- data.frame(y = sample(population, 8, replace = FALSE))
-  samp2 <- data.frame(y = sample(population, 40, replace = FALSE))
-
-  # Modeller dataene
-  m1 <- lm(y ~ 1, data = samp1)
-  m2 <- lm(y ~ 1, data = samp2)
-  
-  # Ekstraher verdier fra modellene
-  results_8[i, 1] <- coef(summary(m1))[1, 1]
-  results_8[i, 2] <- coef(summary(m1))[1, 2]
-  results_8[i, 3] <- coef(summary(m1))[1, 4]
-
-  results_40[i, 1] <- coef(summary(m2))[1, 1]
-  results_40[i, 2] <- coef(summary(m2))[1, 2]
-  results_40[i, 3] <- coef(summary(m2))[1, 4]
-}
-
-# Lag en kombinert data frame med resultater
-results_null <- bind_rows(results_8, results_40)
-
-# Plot p-verdiene i histogrammet med facet for prøvestørrelse
-results_null %>%
-  ggplot(aes(pval)) + 
-  geom_histogram() +
-  facet_wrap(~ n)
-
-# Beregn antall signifikante resultater (p < 0.05) for hver prøvestørrelse
-results_null %>%
-  filter(pval < 0.05) %>%
-  group_by(n) %>%
-  summarise(sig_results = n()/1000)
-
-# Beregn andelen falske positive (p < 0.05)
-false_positive_rate <- results_null %>%
-  filter(pval < 0.05) %>%
-  summarise(false_positives = n()) %>%
-  pull(false_positives) / 2000  # Siden jeg har 1000 studier for n=8 og 1000 for n=40
-
-false_positive_rate
+false_positive_8_alpha0.025 <- sum(results_8$pval < 0.025)
+false_positive_40_alpha0.025 <- sum(results_40$pval < 0.025)
 
 ```
 
+Ved å gjennomføre 1000 gjentatte studier med et signifikansnivå satt til 0,05, kan vi forvente rundt 50 falske positive resultater. I mine beregninger fant jeg at det var r `false_positive_8` falske positive for studiene med en utvalgsstørrelse på 8, og r `false_positive_40` for studiene med en utvalgsstørrelse på 40. Hvis signifikansnivået senkes til 0,025, reduseres antall falske positive noe. Da vil studiene med en utvalgsstørrelse på 8 gi r `false_positive_8_alpha0.025` falske positive, mens studiene med 40 deltakere gir r `false_positive_40_alpha0.025` falske positive.

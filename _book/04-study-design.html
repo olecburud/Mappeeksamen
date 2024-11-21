@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4&nbsp; Assignment 4: Study designs – Mappeeksamen IDR4000</title>
+<title>4&nbsp; Studiedesign – Mappeeksamen IDR4000</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -81,7 +101,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04-study-design.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Assignment 4: Study designs</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04-study-design.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Studiedesign</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -109,7 +129,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introduksjon</span></a>
+ <span class="menu-text">Forord</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -133,7 +153,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04-study-design.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Assignment 4: Study designs</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Studiedesign</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -165,21 +185,15 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">4.1</span> Overview</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Assignment 4: Study designs</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Studiedesign</span></h1>
 </div>
 
 
@@ -196,18 +210,40 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="overview" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">4.1</span> Overview</h2>
-<p>Choose an area of interest (e.g.&nbsp;protein supplementation for muscle hypertrophy or the effect of block periodization on VO<sub>2max</sub>). Find at least five <em>original research studies</em><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> in your selected area and describe strength and weakness of these studies. The report should focus on the design of the studies and selection of statistical tests to answer study aims. Conclude your report with a recommendation, how should future studies in your area be designed to best answer similar questions?</p>
+<p>I denne oppgaven skal jeg velge meg ut fem forskjellige studier og se på hvordan disse er gjennomført i sin helhet, ved styrker og svakheter i prosjektene. Studiene jeg har valgt og se på er studier som vurderer hvordan blokklegging av HIT-trening (Høy-intensitets trening) påvirker utholdenhetsprestasjonen til godt trente utholdenhetsutøvere. De ønsker og finne en måte og optimalisere den intensive treningen for og få mest mulig effekt ved og organisere det på en annen måte enn tidligere. I studiene sammenligner de ofte da perioder med fler HIT øker på en kortere periode istedenfor tradisjonell måte der HIT øktene er mer fordelt utover en gitt periode.</p>
+<p>Det har i nyere tid blitt mer og mer populært og se etter måter og optimalisere trening, spesielt for godt trente utøvere. Vi ser at for godt trente utøvere kreves det ekstra stimuli for at det skal skje endring, og ut ifra dette har blokk periodisering blitt populært. Dette er en måte og prioritere visse egenskaper over en viss tid samtidig som du vedlikeholder andre egenskaper. Du setter kroppen i en større utfordring, og med det store stimuliet krever du at kroppen gjør en endring og tilpasser seg <span class="citation" data-cites="issurin2008">(<a href="#ref-issurin2008" role="doc-biblioref">Issurin 2008</a>)</span>.</p>
+<p>Bent Rønnestad er en forsker som har sett mye på dette med blokkperiodisering av HIT-økter sammenlignet med tradisjonell oppbygning av HIT-økter. I studien til Rønnestad med overskriften «Blokkperiodisering av høyintensive intervaller gir bedre treningseffekter hos trente syklister» <span class="citation" data-cites="rønnestad2014">(<a href="#ref-rønnestad2014" role="doc-biblioref">B. R. Rønnestad and Mujika 2014</a>)</span> gjør de en studie som ser på forskjellene i effekten på to metoder for organisering av utholdenhetstrening. Den ene gruppen (forsøksgruppa) kjører første uken med fem HIT-økter, etterfulgt av tre uker med en HIT-økt per uke og hovedfokus på lavintensitetstrening. Kontrollgruppen fortsetter å kjøre tradisjonelt oppsett av periodiseringen, der de gjennomfører fire uker med to HIT-økter per uke kombinert med lavintensiv trening. De ser på faktorene som VO2max, Wmax (topp kraftutgang) og melkesyreterskel, sammenlignet med TRAD, hos trente syklisterVO2max, Wmax (topp kraftutgang) og melkesyreterskel, sammenlignet med kontrollgruppen, hos trente syklister. Hypotesen i artikkelen er at blokkperiodisering vil gi bedre tilpasninger enn tradisjonell periodisering hos trente syklister. Det samme gjelder hypotesen i studien <span class="citation" data-cites="rønnestad2022">(<a href="#ref-rønnestad2022" role="doc-biblioref">Bent R. Rønnestad et al. 2022</a>)</span>, som så på effekten av 6-dagers HIT-blokk på utholdenhetsprestasjonene til langrennsløpere, mål ved endringer i VO2max, maksimalt oksygenopptak, kraftutgang, og muskelkapillaritet. I likhet med den andre studien var hypotesen at gruppen som gjennomførte HIT trening i blokk ville forbedre sine prestasjonsindikatorer sammenlignet med gruppen som gjennomførte tradisjonell trening.</p>
+<p>En annen studie fra <span class="citation" data-cites="almquist2022">(<a href="#ref-almquist2022" role="doc-biblioref">Almquist et al. 2022</a>)</span> er hypotesen at blokkperiodisering av HIT-økter ville føre til større forbedringer i utholdenhetsprestasjoner enn tradisjonell trening, men i denne studien ble ikke hypotesen støttet da resultatene ikke stemte overens med dette. Mens i de to siste studiene jeg skal se på, hhv. <span class="citation" data-cites="breil2010">(<a href="#ref-breil2010" role="doc-biblioref">Breil et al. 2010</a>)</span> og <span class="citation" data-cites="solli2019">(<a href="#ref-solli2019" role="doc-biblioref">Solli, Tønnessen, and Sandbakk 2019</a>)</span> viser begge hypotesene til at de tror blokkperiodisering av HIT-trening vil føre til bedre utholdenhetsprestasjoner. Kort oppsummert kan vi se at de fleste studiene rammer inn forskingsproblemet som hypoteser, mens studien <span class="citation" data-cites="almquist2022">(<a href="#ref-almquist2022" role="doc-biblioref">Almquist et al. 2022</a>)</span> formulerer det som et utforskende spørsmål. Vi kan si at hypotesedrevet forskning passer godt når vi har lyst til og teste det spesifikke, målbare antakelser, mens mer spørsmål kan være bedre når forskninger er i en tidlig fase ved at det kan forskes bredere. En årsak til logikken bak hypotesene er at bolkgruppene vil få en større mekanisk belastning over en kortere tidsperiode som er et sentralt signal til tilpasning.</p>
+<p>Når det gjelder studiedesignet har studiene <span class="citation" data-cites="rønnestad2022">(<a href="#ref-rønnestad2022" role="doc-biblioref">Bent R. Rønnestad et al. 2022</a>)</span>, <span class="citation" data-cites="rønnestad2014">(<a href="#ref-rønnestad2014" role="doc-biblioref">B. R. Rønnestad and Mujika 2014</a>)</span>, <span class="citation" data-cites="breil2010">(<a href="#ref-breil2010" role="doc-biblioref">Breil et al. 2010</a>)</span> et randomisert kontrollert design. Randomiserte studier vil si at forsøkspersonene i gruppen er tilfeldig plassert i enten kontroll, eller blokktrenings-gruppen. Deltakere bør kvalifisere seg og gi samtykke for randomisering <span class="citation" data-cites="hulley2013">(<a href="#ref-hulley2013" role="doc-biblioref">Hulley et al. 2013</a>)</span>. Det at studiene er randomiserte styrker studien ved at de utelukker påvirkningen av andre faktorer. Det minsker sjansen for skjevhet og gjør resultatene mer pålitelige. <span class="citation" data-cites="almquist2022">(<a href="#ref-almquist2022" role="doc-biblioref">Almquist et al. 2022</a>)</span> er ikke fullstendig randomisert kontrollert design da gruppene er uten strengt randomisert fordeling, dette kan være en svakhet ved studien. <span class="citation" data-cites="solli2019">(<a href="#ref-solli2019" role="doc-biblioref">Solli, Tønnessen, and Sandbakk 2019</a>)</span> skiller seg litt ut fra de andre studiene ved at den undersøker en enkelt forsøksperson.</p>
+<p>Når det gjelder utvalget i de forskjellige studiene ligger dette på rundt 20 forsøkspersoner, der de fordeler 50/50 mellom kontroll gruppe og intervensjonsgruppe. Studien til <span class="citation" data-cites="solli2019">(<a href="#ref-solli2019" role="doc-biblioref">Solli, Tønnessen, and Sandbakk 2019</a>)</span> er spesiell da det er en enkelmansstudie, og vi kan da si at den ikke representerer ett tilfeldig utvalg av populasjonen og gir derfor ikke et bilde på hele befolkningen, og resultatene kan være tilfeldige. I de resterende studiene kan vi si at det hadde vært fordelaktig og hatt ett større utvalg for og kunne si noe mer om det generelle i befolkningen. Ved færre forsøkspersoner kan det være større sannsynlighet for at resultatene har kommet ved en tilfeldighet. I alle studiene er det også plukket utøvere som er godt trente og på ett høyt nivå fra før, noe som vil si at resultatene kan sies og være relevante for denne gruppen personer, men ikke nødvendigvis for gjennomsnitt personen i populasjonen. I alle studiene måtte du være kvalifisert for og kunne være med, gjennom og ha visse resultater, dermed var det ikke et helt tilfeldig utvalg.</p>
+<p>Hvis vi ser på hvordan gjennomføringen var i studiene, brukte alle studiene pre- og post tester for å måle endringer i utholdenhetskapasitet, VO2max og andre fysiologiske parametere. I studiene <span class="citation" data-cites="rønnestad2022">(<a href="#ref-rønnestad2022" role="doc-biblioref">Bent R. Rønnestad et al. 2022</a>)</span>, <span class="citation" data-cites="rønnestad2014">(<a href="#ref-rønnestad2014" role="doc-biblioref">B. R. Rønnestad and Mujika 2014</a>)</span> og <span class="citation" data-cites="almquist2022">(<a href="#ref-almquist2022" role="doc-biblioref">Almquist et al. 2022</a>)</span> ble det gjennomført tester som testen både fysiologiske verdier og prestasjonsmål, prestasjonsmål er for eksempel en 20min/40min alt ut test der du ser om prestasjonen har blitt bedre. Det er en styrke og både se på fysiologiske faktorer og prestasjon, da vi kan få ett større bilde om det faktisk har ført til endringer. I <span class="citation" data-cites="solli2019">(<a href="#ref-solli2019" role="doc-biblioref">Solli, Tønnessen, and Sandbakk 2019</a>)</span> ble resultater i konkurranser brukt, dette er ett prestasjonsmål, men det er vanskelig og si om det er andre faktorer som skaper støy i forskingen og om vi faktisk klarer og finne ut hva som førte til endringer i resultater.</p>
+<p>De fleste studiene brukte t-tester og gjentatte målinger ANOVA for og se forskjeller i resultatene pre- og post intervensjonen. Ved bruk av dette kan man gjøre det mulig og se endinger i variabler er statistisk signifikante, og dermed støtter eller avkrefter hypotesene. Fire av studiene brukte også grafer og deskriptiv statistikk for å vise at treningsbelastningen mellom gruppene og utgangspunktet til forsøkspersonene var likt, med unntak av <span class="citation" data-cites="solli2019">(<a href="#ref-solli2019" role="doc-biblioref">Solli, Tønnessen, and Sandbakk 2019</a>)</span> som ikke hadde kontrollgruppe og derfor ikke noe om å sammenligne med.</p>
+<p>Når det gjelder resultater så konkluderte <span class="citation" data-cites="breil2010">(<a href="#ref-breil2010" role="doc-biblioref">Breil et al. 2010</a>)</span>med at HIT-gruppen forbedret VO2max med 6%, og relativ topp kraftutgang med 5,5% sammenlignet med kontrollgruppen. Det var ingen signifikant ending i alt ut test for noen av gruppene. I dette tilfellet støttet resultatene hypotesen ved at en intensiv HIT-bolk vil gi større forbedringer på VO2max og kraftutgang enn tradisjonell trening. <span class="citation" data-cites="rønnestad2014">(<a href="#ref-rønnestad2014" role="doc-biblioref">B. R. Rønnestad and Mujika 2014</a>)</span>, <span class="citation" data-cites="rønnestad2022">(<a href="#ref-rønnestad2022" role="doc-biblioref">Bent R. Rønnestad et al. 2022</a>)</span> viste begge studiene at gruppen som gjennomførte HIT-blokk trening hadde størst forbedringer på fysiologiske og prestasjonsmål. I begge tilfellene hadde Rønnestad støttet hypotesen. <span class="citation" data-cites="almquist2022">(<a href="#ref-almquist2022" role="doc-biblioref">Almquist et al. 2022</a>)</span> støttet ikke hypotesen ved at han ikke fant noe signifikante forskjeller mellom gruppene på sykkelprestasjon.</p>
 
 
-</section>
-<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn1"><p>Avoid using review articles or meta-analyses<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-almquist2022" class="csl-entry" role="listitem">
+Almquist, Nicki Winfield, Hanne Berg Eriksen, Malene Wilhelmsen, Håvard Hamarsland, Steven Ing, Stian Ellefsen, Øyvind Sandbakk, Bent R. Rønnestad, and Knut Skovereng. 2022. <span>“No Differences Between 12 Weeks of Block- Vs. Traditional-Periodized Training in Performance Adaptations in Trained Cyclists.”</span> <em>Frontiers in Physiology</em> 13 (March). <a href="https://doi.org/10.3389/fphys.2022.837634">https://doi.org/10.3389/fphys.2022.837634</a>.
+</div>
+<div id="ref-breil2010" class="csl-entry" role="listitem">
+Breil, Fabio A., Simone N. Weber, Stefan Koller, Hans Hoppeler, and Michael Vogt. 2010. <span>“Block training periodization in alpine skiing: effects of 11-day HIT on VO2max and performance.”</span> <em>European Journal of Applied Physiology</em> 109 (6): 1077–86. <a href="https://doi.org/10.1007/s00421-010-1455-1">https://doi.org/10.1007/s00421-010-1455-1</a>.
+</div>
+<div id="ref-hulley2013" class="csl-entry" role="listitem">
+Hulley, Stephen B., Steven R. Cummings, Warren S. Browner, Deborah G. Grady, and Thomas B. Newman. 2013. <em>Designing Clinical Research</em>. 4th edition. Wolters Kluwer, Lippincott Williams; Wilkins.
+</div>
+<div id="ref-issurin2008" class="csl-entry" role="listitem">
+Issurin, V. 2008. <span>“Block periodization versus traditional training theory: a review.”</span> <em>The Journal of Sports Medicine and Physical Fitness</em> 48 (1): 65–75.
+</div>
+<div id="ref-rønnestad2014" class="csl-entry" role="listitem">
+Rønnestad, B. R., and I. Mujika. 2014. <span>“Optimizing strength training for running and cycling endurance performance: A review.”</span> <em>Scandinavian Journal of Medicine &amp; Science in Sports</em> 24 (4): 603–12. <a href="https://doi.org/10.1111/sms.12104">https://doi.org/10.1111/sms.12104</a>.
+</div>
+<div id="ref-rønnestad2022" class="csl-entry" role="listitem">
+Rønnestad, Bent R., Kjetil Andre Bjerkrheim, Joar Hansen, and Knut Sindre Mølmen. 2022. <span>“A 6-Day High-Intensity Interval Microcycle Improves Indicators of Endurance Performance in Elite Cross-Country Skiers.”</span> <em>Frontiers in Sports and Active Living</em> 4 (November). <a href="https://doi.org/10.3389/fspor.2022.948127">https://doi.org/10.3389/fspor.2022.948127</a>.
+</div>
+<div id="ref-solli2019" class="csl-entry" role="listitem">
+Solli, Guro Strøm, Espen Tønnessen, and Øyvind Sandbakk. 2019. <span>“Block Vs. Traditional Periodization of HIT: Two Different Paths to Success for the World<span>’</span>s Best Cross-Country Skier.”</span> <em>Frontiers in Physiology</em> 10 (April). <a href="https://doi.org/10.3389/fphys.2019.00375">https://doi.org/10.3389/fphys.2019.00375</a>.
+</div>
+</div>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
