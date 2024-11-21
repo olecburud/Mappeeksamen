@@ -288,5 +288,4 @@ false_positive_40_alpha0.025 <- sum(results_40$pval < 0.025)
 ```
 
 
-
-Ved å gjennomføre 1000 gjentatte studier med et signifikansnivå satt til 0,05, kan vi forvente rundt 50 falske positive resultater. I mine beregninger fant jeg at det var r `false_positive_8` falske positive for studiene med en utvalgsstørrelse på 8, og r `false_positive_40` for studiene med en utvalgsstørrelse på 40. Hvis signifikansnivået senkes til 0,025, reduseres antall falske positive noe. Da vil studiene med en utvalgsstørrelse på 8 gi r `false_positive_8_alpha0.025` falske positive, mens studiene med 40 deltakere gir r `false_positive_40_alpha0.025` falske positive.
+Ved å utføre 1000 gjentatte studier og sette signifikansnivået til 0,05, forventes rundt 50 falske positive. For utvalgsstørrelsen på 8 fikk jeg 49 falske positive, mens utvalgsstørrelsen på 40 resulterte i 59 falske positive. Når signifikansnivået senkes til 0,025, reduseres antallet falske positive. Med en utvalgsstørrelse på 8 var det 30 falske positive, mens for utvalgsstørrelsen på 40 var det 22.

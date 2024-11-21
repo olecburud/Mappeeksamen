@@ -18,5 +18,25 @@ book:
 
 bibliography: resources/bib-final.bib
 
-format: html
+format:
+  pdf: 
+    keep-tex: true
+    latex_engine: xelatex  # Bytt til xelatex for fontstøtte
+    mainfont: "Times New Roman"  # Angi Times New Roman som hovedskrifttype
+    include-in-header: 
+      text:  |
+        \usepackage{amsmath}
+        \usepackage{float}
+        \usepackage{pdflscape}
+        \usepackage{afterpage}
+        \usepackage{longtable}
+        \usepackage[table]{xcolor}
+        \usepackage{longtable}
+        \usepackage{booktabs}
+
+
+execute: 
+  echo: false 
+  warning: false 
+  message: false
  
